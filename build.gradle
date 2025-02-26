@@ -17,3 +17,11 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar{
+    manifest{
+        attributes "Main-class" : "software.engineering.main"
+    }from{
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+    }
+}
