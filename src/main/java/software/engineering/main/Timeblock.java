@@ -7,16 +7,24 @@ public class Timeblock {
     private LocalTime endTime;
     private String name;
 
-    protected Timeblock(LocalTime start, LocalTime end) {
-        this.startTime = start;
-        this.endTime = end;
-        this.name = "";
+    protected Timeblock(LocalTime start, LocalTime end) throws IllegalArgumentException {
+        if(start.isBefore(end)) {
+            this.startTime = start;
+            this.endTime = end;
+            this.name = "";
+        }else{
+            throw new IllegalArgumentException("Start time must be before end time");
+        }
     }
 
-    protected Timeblock(LocalTime start, LocalTime end, String name) {
-        startTime = start;
-        endTime = end;
-        this.name = name;
+    protected Timeblock(LocalTime start, LocalTime end, String name) throws IllegalArgumentException {
+        if(start.isBefore(end)){
+            startTime = start;
+            endTime = end;
+            this.name = name;
+        }else{
+            throw new IllegalArgumentException("Start Time must be before End Time");
+        }
     }
 
     protected void setName(String name) {
