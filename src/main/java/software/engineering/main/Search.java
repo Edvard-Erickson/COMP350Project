@@ -14,7 +14,23 @@ public class Search {
     }
 
     public ArrayList<Section> courseSearch(String text) {
-        return null;
+        ArrayList<Section> returnList = new ArrayList<Section>();
+
+        for (int i = 0; i < fullList.size(); i++) {
+            Section currentSection = fullList.get(i);
+
+            if (
+                    currentSection.getName().contains(text) ||
+                            (
+                                    text.contains(Integer.toString(currentSection.getCourseCode())) &&
+                                            text.contains(currentSection.getDepartment())
+                            )
+            ) {
+                returnList.add(fullList.get(i));
+            }
+        }
+
+        return returnList;
     }
 
     // I think this is done but I'm not sure - LegoBuilder
