@@ -74,9 +74,9 @@ public class AutoScheduler {
 
         // go through all courses and add them
         for(int i = 0; i < coursesLeft.size(); i++) {
-            // make a new schedule for the split
+            // make a new schedule for the split if there is more than one section
 
-            //TODO: Add rules to handle conflicts and
+            //TODO: Add rules to handle conflicts, duplicates and
             // so timeblocks always take precidence over sections
             // also will have call if there is more than one time section
             curSec.addTimeblock(coursesLeft.get(i));
@@ -87,6 +87,7 @@ public class AutoScheduler {
 
             genPossibleSchedulesHelper(SchedulePossibilties,temp,curSec);
         }
+        return SchedulePossibilties;
     }
 
 
