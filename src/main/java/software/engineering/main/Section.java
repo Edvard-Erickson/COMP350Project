@@ -43,6 +43,8 @@ public class Section extends Timeblock{
         return professor;
     }
 
+    protected char getSection(){ return this.section;}
+
     protected LocalTime[] getTimeFrame() {
         return super.getTimeFrame();
     }
