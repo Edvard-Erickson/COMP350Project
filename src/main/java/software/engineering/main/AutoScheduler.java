@@ -87,6 +87,9 @@ public class AutoScheduler {
 
             genPossibleSchedulesHelper(SchedulePossibilties,temp,curSec);
         }
+
+        // added stub
+        return null;
     }
 
 
