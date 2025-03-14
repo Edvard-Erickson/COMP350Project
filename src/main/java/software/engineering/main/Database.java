@@ -35,7 +35,7 @@ public class Database {
 
                 String department = (String) classObj.get("subject");
                 String courseName = (String) classObj.get("name");
-                String courseCode = department + classObj.get("number").toString();
+                long courseCode = (long) classObj.get("number");
                 char section = ((String) classObj.get("section")).charAt(0);
 
                 JSONArray facultyArray = (JSONArray) classObj.get("faculty");
@@ -52,7 +52,7 @@ public class Database {
                     endTime = LocalTime.parse((String) firstTimeBlock.get("end_time"));
                 }
 
-                Section sec = new Section(department, courseCode, section, courseName, professor, startTime, endTime);
+                Section sec = new Section(department, (int) courseCode, section, courseName, professor, startTime, endTime);
                 dataList.add(sec);
             }
 
@@ -63,7 +63,8 @@ public class Database {
 
     public void printData() {
         for (Section section : dataList) {
-            System.out.println(section.getCourseName() + " " + section.getDepartment() + " " + section.getProfessor());
+            System.out.println(section.getDepartment() + " " + section.getCourseCode() + " " + section.getSection() + " | " + section.getCourseName() + " | " + section.getProfessor());
+            System.out.println();
         }
     }
 }
