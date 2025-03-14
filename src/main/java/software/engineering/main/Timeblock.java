@@ -30,4 +30,16 @@ public class Timeblock {
     protected String getName() {
         return name;
     }
+
+    protected boolean conflictsWith(Timeblock other) {
+        if (((other.getTimeFrame()[0].equals(startTime) || other.getTimeFrame()[0].isAfter(startTime))
+                && other.getTimeFrame()[0].isBefore(endTime)) ||
+                ((other.getTimeFrame()[1].equals(startTime) || other.getTimeFrame()[1].isAfter(startTime))
+                && other.getTimeFrame()[1].isBefore(endTime))
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 }
