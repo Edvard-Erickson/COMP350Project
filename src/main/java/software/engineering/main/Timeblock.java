@@ -6,6 +6,7 @@ public class Timeblock {
     private LocalTime startTime;
     private LocalTime endTime;
     private String name;
+    private String days;
 
     protected Timeblock(LocalTime start, LocalTime end) {
         this.startTime = start;

@@ -12,6 +12,7 @@ public class DayFilter extends Filter {
         super();
     }
 
+    // not complete
     @Override
     public ArrayList<Section> filter(ArrayList<Section> sectionList) {
         ArrayList<Section> returnList = new ArrayList<Section>();
