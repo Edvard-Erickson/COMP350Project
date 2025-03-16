@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class DayFilter extends Filter {
 
-    protected LocalTime startTime;
-    protected LocalTime endTime;
+    protected String days;
 
-    public DayFilter(LocalTime startTime, LocalTime endTime) {
+    public DayFilter(String days) {
         super();
+        this.days = days;
     }
 
     // not complete
