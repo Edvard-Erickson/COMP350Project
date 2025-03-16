@@ -39,21 +39,24 @@ public class Timeblock {
     // returns true if the timeblocks overlap at any point, false otherwise
     protected boolean conflictsWith(Timeblock other) {
         Iterator timesI = times.keySet().iterator();
-        Iterator otherTI = other.getTimes().keySet().iterator();
+
 
         while (timesI.hasNext()) {
+            String day = (String) timesI.next();
+
+            Iterator otherTI = other.getTimes().keySet().iterator();
             while (otherTI.hasNext()) {
-                String day = (String) timesI.next();
                 String otherDay = (String) otherTI.next();
 
                 if (day.equals(otherDay)) {
+                    System.out.println("Day matches and is " + day);
                     String[] timeSlots = times.get(day);
                     String[] otherTimeSlots = other.getTimes().get(otherDay);
 
                     String start = timeSlots[0];
-                    String end = timeSlots[0];
-                    String otherStart = timeSlots[1];
-                    String otherEnd = timeSlots[1];
+                    String end = timeSlots[1];
+                    String otherStart = otherTimeSlots[0];
+                    String otherEnd = otherTimeSlots[1];
 
                     ArrayList<String> sCon = new ArrayList<String>();
 
@@ -69,8 +72,25 @@ public class Timeblock {
                         }
                     }
 
-                    if (((start.compareTo(otherStart) <= 0) && (end.compareTo(otherStart) > 0)) ||
-                            ((start.compareTo(otherEnd) <= 0) && (end.compareTo(otherEnd) > 0))) {
+                    LocalTime ltstart = null;
+                    LocalTime ltend = null;
+                    LocalTime ltotherStart = null;
+                    LocalTime ltotherEnd = null;
+                    try {
+                        ltstart = LocalTime.parse(sCon.get(0));
+                        //System.out.println(start);
+                        ltend = LocalTime.parse(sCon.get(1));
+                        //System.out.println(end);
+                        ltotherStart = LocalTime.parse(sCon.get(2));
+                        //System.out.println(otherStart);
+                        ltotherEnd = LocalTime.parse(sCon.get(3));
+                        //System.out.println(otherEnd);
+                    } catch (Exception e) {
+                        System.out.println("uh oh");
+                    }
+
+                    if (((ltstart.compareTo(ltotherStart) <= 0) && (ltend.compareTo(ltotherStart) > 0)) ||
+                            ((ltstart.compareTo(ltotherEnd) <= 0) && (ltend.compareTo(ltotherEnd) > 0))) {
                         return true;
                     }
                 }
