@@ -1,24 +1,24 @@
 package software.engineering.main;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TimeslotFilter extends Filter {
 
-    protected LocalTime startTime;
-    protected LocalTime endTime;
+    private HashMap<String, String[]> times;
 
-    public TimeslotFilter(LocalTime startTime, LocalTime endTime) {
+    public TimeslotFilter(HashMap<String, String[]> times) {
         super();
+        this.times = times;
     }
 
     @Override
     public ArrayList<Section> filter(ArrayList<Section> sectionList) {
+        Timeblock b = new Timeblock(times);
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         for (int i = 0; i < sectionList.size(); i++) {
-            if ((sectionList.get(i).getTimeFrame()[0].equals(startTime) || sectionList.get(i).getTimeFrame()[0].isAfter(startTime))
-            && (sectionList.get(i).getTimeFrame()[1].equals(endTime) || sectionList.get(i).getTimeFrame()[1].isBefore(endTime))) {
+            if (b.conflictsWith(sectionList.get(i))) {
                 returnList.add(sectionList.get(i));
             }
         }

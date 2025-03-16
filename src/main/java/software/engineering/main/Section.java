@@ -2,6 +2,7 @@ package software.engineering.main;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Section extends Timeblock{
     protected ArrayList<String> prereq; // a list of courses saved as department course code (ie. HUMA220)
@@ -10,9 +11,9 @@ public class Section extends Timeblock{
     protected char section; // a char that repersents each section (ie A B L)
     private String professor; //Full name of the professor
 
-    protected Section(String department, int courseCode, char section, String courseName, String professor, LocalTime startTime, LocalTime endTime) {
+    protected Section(String department, int courseCode, char section, String courseName, String professor, HashMap<String, String[]> times) {
         //Might Need to flesh out
-        super(startTime, endTime, courseName);
+        super(times, courseName);
         this.department = department;
         this.courseCode = courseCode;
         this.section = section;
@@ -44,9 +45,5 @@ public class Section extends Timeblock{
     }
 
     protected char getSection(){ return this.section;}
-
-    protected LocalTime[] getTimeFrame() {
-        return super.getTimeFrame();
-    }
 
 }

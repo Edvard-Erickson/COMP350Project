@@ -8,6 +8,7 @@ public class DepartmentFilter extends Filter {
 
     public DepartmentFilter(String department) {
         super();
+        this.department = department;
     }
 
     @Override
@@ -15,7 +16,7 @@ public class DepartmentFilter extends Filter {
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         for (int i = 0; i < sectionList.size(); i++) {
-            if (sectionList.get(i).getDepartment() == department) {
+            if (sectionList.get(i).getDepartment().equals(department)) {
                 returnList.add(sectionList.get(i));
             }
         }
