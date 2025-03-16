@@ -18,7 +18,7 @@ public class TimeslotFilter extends Filter {
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         for (int i = 0; i < sectionList.size(); i++) {
-            if (b.conflictsWith(returnList.get(i))) {
+            if (b.conflictsWith(sectionList.get(i))) {
                 returnList.add(sectionList.get(i));
             }
         }
