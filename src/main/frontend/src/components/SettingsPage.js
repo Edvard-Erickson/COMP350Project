@@ -1,26 +1,91 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import cookies from 'react-cookies';
 
 const SettingsPage = () => {
     const [selectValue, setSelectValue] = useState('');
+    const [selectRemoveValue, setSelectRemoveValue] = useState('');
+    const [selectedPrograms, setSelectedPrograms] = useState([]);
+
+    useEffect(() => {
+        const savedPrograms = cookies.load('programs');
+        if (savedPrograms) {
+            setSelectedPrograms(savedPrograms);
+        }
+    }, []);
 
     const handleChange = (event) => {
         setSelectValue(event.target.value);
     }
 
+    const handleRemoveChange = (event) => {
+            setSelectRemoveValue(event.target.value);
+        }
+
+    useEffect(() => {
+        if (selectedPrograms.length > 0) {
+            cookies.save('programs', selectedPrograms, { path: '/' });
+            console.log('Programs saved in cookies:', cookies.load('programs'));
+        }
+    }, [selectedPrograms]);
+
+    const handleSubmit = (event) => {
+         event.preventDefault();
+         if (!selectValue) {
+            setSelectValue('');
+            return;
+         }
+         const selectedOption = options.find(option => option.href === selectValue);
+         const updatedPrograms = [...selectedPrograms, { name: selectedOption.name, href: selectedOption.href }];
+         setSelectedPrograms(updatedPrograms);
+         setSelectValue('');
+         cookies.save('programs', updatedPrograms, { path: '/' });
+         console.log('Programs saved in cookies:', cookies.load('programs'));
+    }
+
+    const removeProgram = (event) => {
+        event.preventDefault();
+        if (!selectRemoveValue) {
+            setSelectRemoveValue('')
+            return;
+        }
+        const selectedOption = options.find(option => option.href === selectRemoveValue);
+        const updatedPrograms = selectedPrograms.filter(program => program.href !== selectedOption.href);
+        setSelectedPrograms(updatedPrograms);
+        setSelectRemoveValue('');
+        cookies.save('programs', updatedPrograms, { path: '/' });
+        console.log('Programs saved in cookies:', cookies.load('programs'));
+    }
+
     var options = getAllPrograms();
+    var filteredOptions = options.filter(option => !selectedPrograms.some(program => program.href === option.href));
     return (
         <div>
-            <form id="settingsForm">
+            <h2>Settings</h2>
+            <p>Current Programs: {selectedPrograms.map(program => program.name).join(', ')}</p>
+            <p>ADD A PROGRAM:</p>
+            <form id="settingsForm" onSubmit={handleSubmit}>
                 <select id="programs" value={ selectValue } onChange={ handleChange }>
                     <option value="" disabled>Select...</option>
-                    {options.map((option) => (
-                      <option key={option.name} value={option.name}>
+                    {filteredOptions.map((option) => (
+                      <option key={option.name} value={option.href}>
                         {option.name}
                       </option>
                     ))}
                 </select>
                 <button type="submit">Add Program</button>
+            </form>
+            <p>REMOVE A PROGRAM:</p>
+            <form id="settingsForm" onSubmit={removeProgram}>
+                <select id="programs" value={ selectRemoveValue } onChange={ handleRemoveChange }>
+                    <option value="" disabled>Select...</option>
+                    {selectedPrograms.map((option) => (
+                      <option key={option.name} value={option.href}>
+                        {option.name}
+                      </option>
+                    ))}
+                </select>
+                <button type="submit">Remove Program</button>
             </form>
         </div>
     )

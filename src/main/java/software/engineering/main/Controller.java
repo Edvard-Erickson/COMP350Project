@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class Controller {
     public Controller() {}
 
-    @GetMapping("/data")
-    public String getData() {
-        System.out.println("A new hand has touched the beacon. ");
-        return "test";
+    @GetMapping("/search/{query}")
+    public String getSearchResults() {
+        return null;
     }
 }

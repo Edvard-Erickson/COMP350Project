@@ -1,10 +1,24 @@
-nav {
+.navbar-nav {
     margin: 0;
     padding: 0;
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    background-color: #333;
+    background-color: #111;
+}
+
+.navbar-nav .nav-link {
+    display: inline-block;
+}
+
+.navbar-nav .nav-link:hover {
+     background-color: #666;
+     color: #FFF;
+ }
+
+body {
+    padding-top: 20px;
 }
 
 a, a:link, a:visited, a:active {
@@ -13,10 +27,6 @@ a, a:link, a:visited, a:active {
     margin: 2px;
     text-decoration: none;
     color: #DDD;
-}
-
-a:hover {
-    color: #BBB;
 }
 
 #homePageGreeting {
@@ -33,7 +43,26 @@ a:hover {
     margin: auto;
 }
 
-#homeButtons .col .row a {
+#homeButtons .col .row a, .custom-dropdown, .dropdown-toggle {
+    width: 100%;
+    margin: 3px;
+    padding: 10px;
+    text-align: center;
+    background-color: #333 !important;
+    color: #DDD;
+    border: none !important;
+}
+
+#homeButtons .col .row a:hover,
+.custom-dropdown:hover,
+.custom-dropdown:hover .dropdown-toggle,
+.custom-dropdown:hover .dropdown-toggle:active,
+.custom-dropdown:hover .dropdown-toggle:focus {
+    color: #FFF !important;
+    background-color: #555 !important;
+}
+
+#home {
     width: 100%;
     margin: 3px;
     background-color: #333;
@@ -48,4 +77,36 @@ a:hover {
 #settingsForm {
     margin-top: 5%;
     margin-left: 5%;
+}
+
+.dropdown-toggle {
+    padding: 0 !important;
+    color: #DDD !important;
+}
+
+.dropdown-toggle:hover {
+    color: #FFF !important;
+}
+
+.dropdown-menu {
+    padding: 0 !important;
+    background-color: #222 !important;
+    color: #DDD #important;
+}
+
+.dropdown-item {
+    width: 96% !important;
+    margin: 2% !important;
+}
+
+.dropdown-item:hover {
+    background-color: #555 !important;
+    color: #FFF !important;
+}
+
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:active {
+    background-color: #333 !important;
+    color: #DDD !important;
+    border: none !important;
 }
