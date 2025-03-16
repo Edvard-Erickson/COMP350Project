@@ -19,6 +19,14 @@ public class Schedule {
         blocks.add(block);
     }
 
+    protected void removeSection(Section section) {
+        classes.remove(section);
+    }
+
+    protected void removeTimeblock(Timeblock block) {
+        blocks.remove(block);
+    }
+
     protected ArrayList<Object> getSchedule() {
         return null;
     }
