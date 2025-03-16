@@ -49,7 +49,6 @@ public class Timeblock {
                 String otherDay = (String) otherTI.next();
 
                 if (day.equals(otherDay)) {
-                    System.out.println("Day matches and is " + day);
                     String[] timeSlots = times.get(day);
                     String[] otherTimeSlots = other.getTimes().get(otherDay);
 
