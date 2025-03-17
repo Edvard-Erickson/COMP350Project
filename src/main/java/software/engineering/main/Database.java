@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -41,18 +44,20 @@ public class Database {
                 JSONArray facultyArray = (JSONArray) classObj.get("faculty");
                 String professor = (facultyArray != null && !facultyArray.isEmpty()) ? (String) facultyArray.get(0) : "Unknown";
 
-                // Extract start and end times (default to 00:00 if not available)
-                LocalTime startTime = LocalTime.MIN;
-                LocalTime endTime = LocalTime.MIN;
-
+                // Extract times data
+                HashMap<String, String[]> times = new HashMap<>();
                 JSONArray timesArray = (JSONArray) classObj.get("times");
-                if (timesArray != null && !timesArray.isEmpty()) {
-                    JSONObject firstTimeBlock = (JSONObject) timesArray.get(0); // Get first time slot
-                    startTime = LocalTime.parse((String) firstTimeBlock.get("start_time"));
-                    endTime = LocalTime.parse((String) firstTimeBlock.get("end_time"));
+                if (timesArray != null) {
+                    for (Object timeObj : timesArray) {
+                        JSONObject timeBlock = (JSONObject) timeObj;
+                        String day = (String) timeBlock.get("day");
+                        String startTime = (String) timeBlock.get("start_time");
+                        String endTime = (String) timeBlock.get("end_time");
+                        times.put(day, new String[]{startTime, endTime});
+                    }
                 }
 
-                Section sec = new Section(department, (int) courseCode, section, courseName, professor, startTime, endTime);
+                Section sec = new Section(department, (int) courseCode, section, courseName, professor, times);
                 dataList.add(sec);
             }
 
@@ -61,9 +66,25 @@ public class Database {
         }
     }
 
+    //get method for datalist
+    public ArrayList<Section> getDataList() {
+        return dataList;
+    }
+
+    //more for testing purposes, it will print out all relevant data, times are printed for mondays
+    //print data method
     public void printData() {
         for (Section section : dataList) {
-            System.out.println(section.getDepartment() + " " + section.getCourseCode() + " " + section.getSection() + " | " + section.getCourseName() + " | " + section.getProfessor());
+            System.out.println(section.getDepartment() + " "
+                    + section.getCourseCode() + " "
+                    + section.getSection() + " | "
+                    + section.getCourseName() + " | "
+                    + section.getProfessor() + " | "
+                    + "M: " + (section.getTimes().get("M") != null ? Arrays.toString(section.getTimes().get("M")) : "no times on monday") + " | "
+                    + "T: " + (section.getTimes().get("T") != null ? Arrays.toString(section.getTimes().get("T")) : "no times on tuesday") + " | "
+                    + "W: " + (section.getTimes().get("W") != null ? Arrays.toString(section.getTimes().get("W")) : "no times on wednesday") + " | "
+                    + "R: " + (section.getTimes().get("R") != null ? Arrays.toString(section.getTimes().get("R")) : "no times on thursday") + " | "
+                    + "F: " + (section.getTimes().get("F") != null ? Arrays.toString(section.getTimes().get("F")) : "no times on friday"));
             System.out.println();
         }
     }
