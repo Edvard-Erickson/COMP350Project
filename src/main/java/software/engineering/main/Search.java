@@ -9,7 +9,7 @@ public class Search {
 
     public Search(ArrayList<Section> list) {
         fullList = new ArrayList<>(list);
-        lastSearch = new ArrayList<>();
+        lastSearch = new ArrayList<>(list);
         filtersInUse = new ArrayList<>();
     }
 
@@ -49,5 +49,11 @@ public class Search {
 
     public void addFilter(Filter filter) {
         filtersInUse.add(filter);
+    }
+
+    public void clearFilters() {
+        filtersInUse.clear();
+        lastSearch.clear();
+        lastSearch.addAll(fullList);
     }
 }
