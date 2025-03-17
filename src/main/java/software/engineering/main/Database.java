@@ -52,8 +52,8 @@ public class Database {
                     endTime = LocalTime.parse((String) firstTimeBlock.get("end_time"));
                 }
 
-                Section sec = new Section(department, (int) courseCode, section, courseName, professor, startTime, endTime);
-                dataList.add(sec);
+                //Section sec = new Section(department, (int) courseCode, section, courseName, professor, startTime, endTime);
+                //dataList.add(sec);
             }
 
         } catch (IOException | ParseException e) {

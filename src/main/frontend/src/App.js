@@ -2,6 +2,7 @@ import './App.css'
 import HomePage from './components/HomePage.js'
 import Page404 from './components/Page404.js'
 import SettingsPage from './components/SettingsPage.js'
+import AddCourses from './components/AddCourses.js'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import Button from "react-bootstrap/Button"
 import Container from "react-bootstrap/Container"
@@ -28,7 +29,7 @@ export default function App() {
             <Route path="/generate" element=<Page404 /> />
             <Route path="/viewGuides" element=<Page404 /> />
             <Route path="/viewCourses" element=<Page404 /> />
-            <Route path="/addCourses" element=<Page404 /> />
+            <Route path="/addCourses" element=<AddCourses /> />
             <Route path="/*" element=<Page404 /> />
         </Routes>
     </Router>
