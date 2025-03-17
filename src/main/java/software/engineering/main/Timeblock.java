@@ -66,9 +66,9 @@ public class Timeblock {
                     sCon.add(otherEnd);
                     for (int i = 0; i < 4; i++) {
                         // TODO: find what length 10:00 is stored as and change the 5 below to that number
-                        if (sCon.get(i).length() < 5) {
+                        if (sCon.get(i).length() < 8) {
                             String s = (String) sCon.get(i);
-                            sCon.set(i, "0" + s);
+                            sCon.set(i, ("0" + s).substring(0,5));
                         }
                     }
 
