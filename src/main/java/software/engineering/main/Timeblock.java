@@ -1,6 +1,7 @@
 package software.engineering.main;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,9 +66,9 @@ public class Timeblock {
                     sCon.add(otherEnd);
                     for (int i = 0; i < 4; i++) {
                         // TODO: find what length 10:00 is stored as and change the 5 below to that number
-                        if (sCon.get(i).length() < 5) {
+                        if (sCon.get(i).length() < 8) {
                             String s = (String) sCon.get(i);
-                            sCon.set(i, "0" + s);
+                            sCon.set(i, ("0" + s).substring(0,5));
                         }
                     }
 
@@ -84,8 +85,8 @@ public class Timeblock {
                         //System.out.println(otherStart);
                         ltotherEnd = LocalTime.parse(sCon.get(3));
                         //System.out.println(otherEnd);
-                    } catch (Exception e) {
-                        System.out.println("uh oh");
+                    } catch (DateTimeParseException e) {
+                        System.out.println("uh oh, the date didn't parse correctly");
                     }
 
                     if (((ltstart.compareTo(ltotherStart) <= 0) && (ltend.compareTo(ltotherStart) > 0)) ||

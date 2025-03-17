@@ -1,4 +1,5 @@
 package software.engineering.main;
+
 import java.util.ArrayList;
 
 public class Search {
@@ -26,6 +27,21 @@ public class Search {
                                             text.contains(currentSection.getDepartment())
                             )
             ) {
+                returnList.add(fullList.get(i));
+            }
+        }
+
+        return returnList;
+    }
+
+    public ArrayList<Section> courseSections(String department, int courseCode) {
+
+        ArrayList<Section> returnList = new ArrayList<Section>();
+
+        for (int i = 0; i < fullList.size(); i++) {
+            Section currentSection = fullList.get(i);
+
+            if (currentSection.getDepartment().equals(department) && currentSection.getCourseCode() == courseCode) {
                 returnList.add(fullList.get(i));
             }
         }
