@@ -1,6 +1,7 @@
 package software.engineering.main;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,8 +85,8 @@ public class Timeblock {
                         //System.out.println(otherStart);
                         ltotherEnd = LocalTime.parse(sCon.get(3));
                         //System.out.println(otherEnd);
-                    } catch (Exception e) {
-                        System.out.println("uh oh");
+                    } catch (DateTimeParseException e) {
+                        System.out.println("uh oh, the date didn't parse correctly");
                     }
 
                     if (((ltstart.compareTo(ltotherStart) <= 0) && (ltend.compareTo(ltotherStart) > 0)) ||
