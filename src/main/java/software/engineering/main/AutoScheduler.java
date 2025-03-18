@@ -6,23 +6,39 @@ public class AutoScheduler {
     private ArrayList<Schedule> SchedulePossibilties;
     //All courses you would want to take regardless of conflicts
     private ArrayList<Timeblock> CourseList;
+    private Search search;
 
-    //Constructor given no input
-    public AutoScheduler() {
+    //Constructor given all courses
+    public AutoScheduler(ArrayList<Section> allCourses) {
         this.SchedulePossibilties = new ArrayList<>();
         this.CourseList = new ArrayList<>();
+        this.search = new Search(allCourses); // must pass all courses so that it can create a new search object
     }
 
-    //Constructor given a schedule object
-    public AutoScheduler(Schedule Sch) {
+    //Constructor given a search object
+    public AutoScheduler(Search s){
         this.SchedulePossibilties = new ArrayList<>();
         this.CourseList = new ArrayList<>();
-
-        //make a copy of
+        this.search = s; //pass in an already created search object
     }
 
-    public void addToCourseList(Timeblock sec) {
-        this.CourseList.add(sec);
+    //Constructor given a schedule object and all courses
+    public AutoScheduler(ArrayList<Section> allCourses, Schedule Sch) {
+        this.SchedulePossibilties = new ArrayList<>();
+        this.CourseList = Sch.getSchedule();
+        this.search = new Search(allCourses); // must pass all courses so that it can create a new search object
+    }
+
+    //Constructor given a schedule object and a search object
+    public AutoScheduler(Search s, Schedule Sch) {
+        this.SchedulePossibilties = new ArrayList<>();
+        this.CourseList = Sch.getSchedule();
+        this.search = s; //pass in an already created search object
+    }
+
+    public void addToPossibleCourseList(Section sec) {
+        //Search for all other section and add them to the course list
+        this.CourseList.addAll(search.courseSections(sec.getDepartment(), sec.getCourseCode()));
     }
     public void removeFromCourseList(Timeblock sec) {
         this.CourseList.remove(sec);
@@ -32,65 +48,60 @@ public class AutoScheduler {
         return SchedulePossibilties;
     }
 
-    public void generatePossibleSchedules(){ // might add filters to the param
-        //1) grab first section/timeblock
-
-        //2) see if there is mulitple times for that section
-        // if so then split, make a schedule for each section seperatly
-
-        //3) split for everyother section seperately (adding each class that is left
-        // to possilble scheduled as if it was added second)
-
-        //4) repeat 3 till untill no more sections
-
-        //5) repeat 1-4 for every course
-
-
-        Schedule tempSch = new Schedule();
-        this.SchedulePossibilties = genPossibleSchedulesHelper(SchedulePossibilties,CourseList,tempSch);
-        // now we should have a list of schedules to work with
-
-        /*TODO: Filter through the schedules that are most benifical and those that are not
-        / Factors:
-        /   How early the first class
-        /   How many classes are fit into one schedule
-        /   is there time for lunch
-        /   do they end before practice
-        /   are the classes you really wanted to take in the schedule (might be a later addition)
-        */
+    public void generatePossibleSchedules() {
+        Schedule initialSchedule = new Schedule();
+        backTrackGenerate(initialSchedule, 0); // get all possible schedules
+        //TODO: Implement a way to RANK the schedules
     }
 
-    public ArrayList<Schedule> genPossibleSchedulesHelper(ArrayList<Schedule> SchedulePossibilties, ArrayList<Timeblock> coursesLeft, Schedule curSec) {
-        // should be recursive I think it can be done
-        // base case is when there is no more courses left in the course left
+    private void backTrackGenerate(Schedule currentSchedule, int index) {
+        //MitchellAL 100% code below was written by copilot. I only tested it and made sure it worked
 
-        //Could this be void since we are adding the schedule to a list that is being passed in
-
-        //Base Case
-        if(coursesLeft.isEmpty()) {
-            SchedulePossibilties.add(curSec);
-            return SchedulePossibilties;
+        // Base case: if we have considered all courses, add the current schedule to the possibilities
+        if (index == CourseList.size()) {
+            SchedulePossibilties.add(new Schedule(currentSchedule));
+            return;
         }
 
-        // go through all courses and add them
-        for(int i = 0; i < coursesLeft.size(); i++) {
-            // make a new schedule for the split
+        // Get the current course to consider
+        Timeblock currentCourse = CourseList.get(index);
 
-            //TODO: Add rules to handle conflicts and
-            // so timeblocks always take precidence over sections
-            // also will have call if there is more than one time section
-            curSec.addTimeblock(coursesLeft.get(i));
-
-            //placeholder courses left without the course we just removed
-            ArrayList<Timeblock> temp = new ArrayList<>(coursesLeft); //Might Not be a deep Copy IDK
-            temp.remove(coursesLeft.get(i));
-
-            genPossibleSchedulesHelper(SchedulePossibilties,temp,curSec);
+        // Check if the current course can be added without conflicts
+        if (!hasConflict(currentSchedule, currentCourse)) {
+            // Add the current course to the schedule
+            currentSchedule.addTimeblock(currentCourse);
+            // Recursively try to add the next course
+            backTrackGenerate(currentSchedule, index + 1);
+            // Backtrack: remove the current course from the schedule
+            currentSchedule.removeTimeblock(currentCourse);
         }
 
-        // added stub
-        return null;
+        // Recursively try to add the next course without including the current course
+        backTrackGenerate(currentSchedule, index + 1);
     }
 
+    private boolean hasConflict(Schedule schedule, Timeblock course) {
+        //MitchellAL 100% code below was written by copilot. I only tested it and made sure it worked
+        //except for the try block check I added
+
+        for (Timeblock scheduledCourse : schedule.getSchedule()) {
+            //check to see if there is a course at that time
+            if (course.conflictsWith(scheduledCourse)) {
+                return true;
+            }
+
+            //Mitchellal I added the try block below
+            // to see if there is another section in the course list that conflicts with the current course
+            // this is so the Generater does not generate a Schdule with you in two the same class (ie 2 western civs)
+            try{
+                if(((Section) course).sectionOf((Section) scheduledCourse)){
+                    return true;
+                }
+            } catch (ClassCastException e){
+                //do nothing means one is a timeblock and the other is a section so they cant be the same course
+            }
+        }
+        return false;
+    }
 
 }
