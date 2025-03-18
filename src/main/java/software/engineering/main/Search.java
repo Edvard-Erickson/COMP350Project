@@ -1,4 +1,5 @@
 package software.engineering.main;
+
 import java.util.ArrayList;
 
 public class Search {
@@ -33,6 +34,21 @@ public class Search {
         return returnList;
     }
 
+    public ArrayList<Section> courseSections(String department, int courseCode) {
+
+        ArrayList<Section> returnList = new ArrayList<Section>();
+
+        for (int i = 0; i < fullList.size(); i++) {
+            Section currentSection = fullList.get(i);
+
+            if (currentSection.getDepartment().equals(department) && currentSection.getCourseCode() == courseCode) {
+                returnList.add(fullList.get(i));
+            }
+        }
+
+        return returnList;
+    }
+
     // I think this is done but I'm not sure - LegoBuilder
     public ArrayList<Section> applyFilters() {
         ArrayList<Section> results = new ArrayList<Section>();
@@ -42,8 +58,7 @@ public class Search {
             results = filtersInUse.get(i).filter(results);
         }
 
-        lastSearch.clear();
-        lastSearch.addAll(results);
+        setLastSearch(results);
         return results;
     }
 
@@ -53,7 +68,15 @@ public class Search {
 
     public void clearFilters() {
         filtersInUse.clear();
-        lastSearch.clear();
-        lastSearch.addAll(fullList);
+        setLastSearch(fullList);
+    }
+
+    public ArrayList<Section> getLastSearch() {
+        return lastSearch;
+    }
+
+    public void setLastSearch(ArrayList<Section> lastSearch) {
+        this.lastSearch.clear();
+        this.lastSearch.addAll(lastSearch);
     }
 }
