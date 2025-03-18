@@ -54,8 +54,11 @@ export const AddCourses = () => {
         if (convertToMilitaryTime(endTime) != null) {
             eTime = convertToMilitaryTime(endTime);
         }
+
         const query = searchQuery ? `/${searchQuery}` : '';
         const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&times=${sTime}-${eTime}`;
+        setFilteredResults([]);
+
         fetch(url)
             .then(response => response.json())
             .then(data => {
