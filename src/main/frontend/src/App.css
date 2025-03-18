@@ -197,3 +197,52 @@ a, a:link, a:visited, a:active {
     margin: auto;
     font-size: 1.2vw;
 }
+.fullWidthTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fullWidthTable th, .fullWidthTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    background-color: #222 !important;
+    color: #DDD;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #444 !important;
+}
+
+.pagination button:hover {
+    background-color: #444 !important;
+}
+
+
+.addButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222 !important;
+    border: 1px black !important;
+}

@@ -1,5 +1,4 @@
 package software.engineering.main;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 
@@ -16,7 +15,9 @@ public class Controller {
     public Controller() {
         Database db = new Database();
         db.readFile();
-        ArrayList<Section> courseList = db.getDataList();
+        this.   courseList = db.getDataList();
+
+        db.printData();
 
         this.s = new Search(courseList);
     }
@@ -30,12 +31,14 @@ public class Controller {
                     case "department" -> s.addFilter(new DepartmentFilter(filter.getValue()));
                     case "professor" -> s.addFilter(new ProfessorFilter(filter.getValue()));
                     case "times" -> {
+                        System.out.println(filter.getValue());
                         String[] times = filter.getValue().split(",");
                         HashMap<String, String[]> timeMap = new HashMap<>();
                         for (String time : times) {
-                            String day = time.substring(0, 1);
-                            String[] timeRange = time.substring(1).split("-");
-                            timeMap.put(day, timeRange);
+                            for (String key : new String[]{"M", "T", "W", "R", "F"}) {
+                                String[] timeRange = time.split("-");
+                                timeMap.put(key, timeRange);
+                            }
                         }
                         s.addFilter(new TimeslotFilter(timeMap));
                     }
@@ -43,6 +46,7 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
+        System.out.println(new Gson().toJson(filteredSearch.courseSearch(query)));
         return new Gson().toJson(filteredSearch.courseSearch(query));
     }
 
@@ -79,7 +83,7 @@ public class Controller {
         ArrayList<Section> timeblocks = toCourseObjects(courses);
         AutoScheduler sg = new AutoScheduler(timeblocks);
         sg.generatePossibleSchedules();
-        return new Gson().toJson(sg.getSchedulePossibilties());
+        return new Gson().toJson(sg.getSchedulePossibilities());
     }
 
     @GetMapping("/isConflict")
