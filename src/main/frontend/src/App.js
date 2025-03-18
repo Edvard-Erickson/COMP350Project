@@ -29,7 +29,7 @@ export default function App() {
             <Route exact path="/" element=<HomePage /> />
             <Route path="/settings" element=<SettingsPage /> />
             <Route path="/schedule" element=<Schedule /> />
-            <Route path="/generate" element=<Generate /> />
+            <Route path="/generate" element=<Page404 /> />
             <Route path="/viewCourses" element=<ViewCourses /> />
             <Route path="/addCourses" element=<AddCourses /> />
             <Route path="/*" element=<Page404 /> />

@@ -1,5 +1,6 @@
 html, #root {
-    background-color: #222;
+    background-color: #333;
+    color: #BBB;
 }
 
 #homePageGreeting {
@@ -56,7 +57,7 @@ a, a:link, a:visited, a:active {
     margin: 3px !important;
     padding: 10px !important;
     text-align: center;
-    background-color: #333 !important;
+    background-color: #222 !important;
     color: #DDD;
     border: none !important;
     border-radius: 0px !important;
@@ -78,7 +79,7 @@ a, a:link, a:visited, a:active {
 #home {
     width: 100%;
     margin: 3px;
-    background-color: #333;
+    background-color: #222;
     text-align: center;
 }
 
@@ -118,7 +119,7 @@ a, a:link, a:visited, a:active {
 
 .custom-dropdown .dropdown-toggle:focus,
 .custom-dropdown .dropdown-toggle:active {
-    background-color: #333 !important;
+    background-color: #222 !important;
     color: #DDD !important;
     border: none !important;
 }
@@ -182,15 +183,15 @@ a, a:link, a:visited, a:active {
 .filterButton {
     width: 18%;
     margin: 1%;
-    background-color: #444 !important;
-    border: 1px black !important;
+    background-color: #333 !important;
+    border: 2px black !important;
 }
 
 .filterForm {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1%;
-    background-color: #333;
+    background-color: #222;
     padding: 1%;
 }
 
@@ -223,6 +224,7 @@ a, a:link, a:visited, a:active {
 .fullWidthTable th {
     background-color: #222;
     color: #AAA;
+    text-align: center;
 }
 
 .fullWidthTable tr:nth-child(2n) {
@@ -274,16 +276,26 @@ a, a:link, a:visited, a:active {
     border: 1px black !important;
 }
 
+.createTimeBlock {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #222 !important;
+    border: 1px black !important;
+}
+
 .viewCourseButton {
     position: fixed;
     bottom: 20px;
     height: 5%;
-    text-align: center;
+    padding: 10px !important;
+    line-height: 50% !important;
     background-color: #222 !important;
+    border: 1px #FFF !important;
 }
 
 .viewCourseButton:hover {
-    background-color: #444 !important;
+    background-color: #555 !important;
 }
 
 .buttonButton {

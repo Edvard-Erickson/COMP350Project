@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Form, FormControl, Button } from 'react-bootstrap';
+import { Form, FormControl, Button, Modal } from 'react-bootstrap';
 import cookies from 'react-cookies';
 
 export const sortDays = (days) => {
-    const dayOrder = ['M', 'T', 'W', 'R', 'F', 'S', 'U'];
+    const dayOrder = ['M', 'T', 'W', 'R', 'F'];
     return days.sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
 };
 
@@ -37,6 +37,7 @@ export const AddCourses = () => {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
     const itemsPerPage = 20;
     var counter = 0;
 

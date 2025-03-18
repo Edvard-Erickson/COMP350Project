@@ -6,6 +6,7 @@ import { groupTimes, sortDays } from './AddCourses.js'
 
 const ViewCourses = () => {
     const [courses, setCourses] = useState([]);
+    const [timeBlocks, setTimeBlocks] = useState([]);
 
     const fetchCourses = () => {
         const selectedCourses = cookies.load('selectedCourses') || [];
@@ -20,6 +21,11 @@ const ViewCourses = () => {
         } else {
             setCourses([]);
         }
+    };
+
+    const fetchTimeBlocks = () => {
+        const savedTimeBlocks = cookies.load('timeBlocks') || [];
+        setTimeBlocks(savedTimeBlocks);
     };
 
     useEffect(() => {
@@ -68,6 +74,13 @@ const ViewCourses = () => {
                                                     <span key={time}> {sortDays(days).join('')}: {time} </span>
                                                 ))}
                                             </td>
+                                        </tr>
+                                    ))}
+                                    {timeBlocks.map((timeBlock, index) => (
+                                        <tr key={`timeBlock${index}`}>
+                                            <td></td>
+                                            <td colSpan="2">{timeBlock.name}</td>
+                                            <td colSpan="2">{timeBlock.startTime} - {timeBlock.endTime}</td>
                                         </tr>
                                     ))}
                                 </tbody>
