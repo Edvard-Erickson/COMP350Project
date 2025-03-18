@@ -10,14 +10,14 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const HomePage = () => {
     return (
-        <div>
+        <div className="mainContainer">
             <h2 id='homePageGreeting'>Hello User!</h2>
             <Container id='homeButtons'>
                 <Col>
                     <Row><Link to='/generate'>Generate Schedules</Link></Row>
                     <Row><Link to='/schedule'>View Schedule</Link></Row>
                     <Row>
-                        <Dropdown className='custom-dropdown'>
+                        <Dropdown className='custom-dropdown' drop='end'>
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
                                 Course Guides
                             </Dropdown.Toggle>

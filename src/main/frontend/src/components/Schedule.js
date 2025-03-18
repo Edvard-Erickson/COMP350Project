@@ -70,6 +70,9 @@ const Schedule = () => {
                     endRecur: '2027-12-31'
                 }))
             )}
+            eventColor='#444'
+            slotMinTime='06:00:00'
+            slotMaxTime='22:00:00'
         />
     )
 }

@@ -44,20 +44,36 @@ const ViewCourses = () => {
     return (
         <div>
             <h2>Current Courses</h2>
-            <ul className='scrollList'>
-                {courses.map((course) => (
-                    <li key={`${course.department}${course.courseCode}${course.section}`}>
-                    <input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}`}></input>
-                    <span className='courseInfo'>
-                        {course.department}{course.courseCode} | {course.name} | {course.section} |
-                        {Object.entries(groupTimes(course.times)).map(([time, days]) => (
-                            <span key={time}> {sortDays(days).join('')}: {time} </span>
-                        ))}
-                    </span>
-                    </li>
-                ))}
-            </ul>
-            <Button onClick={removeCourses}>Remove Selected Courses</Button>
+            <table className="fullWidthTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Course</th>
+                                        <th>Name</th>
+                                        <th>Section</th>
+                                        <th>Professor</th>
+                                        <th>Times</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {courses.map((course) => (
+                                        <tr key={`${course.department}${course.courseCode}${course.section}`}>
+                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}`}></input></td>
+                                            <td>{course.department}{course.courseCode}</td>
+                                            <td>{course.name}</td>
+                                            <td>{course.section}</td>
+                                            <td>{course.professor}</td>
+                                            <td>
+                                                {Object.entries(groupTimes(course.times)).map(([time, days]) => (
+                                                    <span key={time}> {sortDays(days).join('')}: {time} </span>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+            <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton">Remove Selected Courses</Button>
+            <Link to="/addCourses" className="viewCourseButton linkButton">Go to Add Courses</Link>
         </div>
     )
 }

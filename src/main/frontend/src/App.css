@@ -1,3 +1,11 @@
+html, #root {
+    background-color: #222;
+}
+
+#homePageGreeting {
+    color: #BBB;
+}
+
 .navbar-nav {
     margin: 0;
     padding: 0;
@@ -43,18 +51,23 @@ a, a:link, a:visited, a:active {
     margin: auto;
 }
 
-#homeButtons .col .row a, .custom-dropdown, .dropdown-toggle {
+#homeButtons .col .row a, .dropdown-toggle {
     width: 100%;
-    margin: 3px;
-    padding: 10px;
+    margin: 3px !important;
+    padding: 10px !important;
     text-align: center;
     background-color: #333 !important;
     color: #DDD;
     border: none !important;
+    border-radius: 0px !important;
+}
+
+.custom-dropdown {
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 #homeButtons .col .row a:hover,
-.custom-dropdown:hover,
 .custom-dropdown:hover .dropdown-toggle,
 .custom-dropdown:hover .dropdown-toggle:active,
 .custom-dropdown:hover .dropdown-toggle:focus {
@@ -80,7 +93,6 @@ a, a:link, a:visited, a:active {
 }
 
 .dropdown-toggle {
-    padding: 0 !important;
     color: #DDD !important;
 }
 
@@ -90,7 +102,7 @@ a, a:link, a:visited, a:active {
 
 .dropdown-menu {
     padding: 0 !important;
-    background-color: #222 !important;
+    background-color: #444 !important;
     color: #DDD #important;
 }
 
@@ -208,6 +220,21 @@ a, a:link, a:visited, a:active {
     text-align: left;
 }
 
+.fullWidthTable th {
+    background-color: #222;
+    color: #AAA;
+}
+
+.fullWidthTable tr:nth-child(2n) {
+    background-color: #444;
+    color: #AAA;
+}
+
+.fullWidthTable tr:nth-child(2n+1) {
+    background-color: #555;
+    color: #AAA;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -245,4 +272,41 @@ a, a:link, a:visited, a:active {
     right: 20px;
     background-color: #222 !important;
     border: 1px black !important;
+}
+
+.viewCourseButton {
+    position: fixed;
+    bottom: 20px;
+    height: 5%;
+    text-align: center;
+    background-color: #222 !important;
+}
+
+.viewCourseButton:hover {
+    background-color: #444 !important;
+}
+
+.buttonButton {
+    left: 20px;
+}
+
+.linkButton {
+    right: 20px;
+    border-radius: 7px;
+}
+
+.fc-timegrid-slot-label-cushion {
+    color: #BBB !important;
+}
+
+table .fc-col-header .fc-col-header-cell, table colgroup {
+    background-color: #111;
+}
+
+.fc-col-header-cell-cushion {
+    float: left;
+    padding: 4px;
+    margin: 2px;
+    text-decoration: none;
+    color: #999;
 }
