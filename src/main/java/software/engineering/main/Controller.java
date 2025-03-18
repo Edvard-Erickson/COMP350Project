@@ -81,9 +81,36 @@ public class Controller {
     @GetMapping("/generate")
     public String generateSchedule(@RequestParam List<String> courses) {
         ArrayList<Section> timeblocks = toCourseObjects(courses);
+        System.out.print("GENERATING COURSES WITH: ");
+        for (Section s : timeblocks) {
+            System.out.print(s.getCourseName() + " ");
+        }
+        System.out.println();
+
+        if (timeblocks.isEmpty()) {
+            System.out.println("No valid courses found for the given input.");
+            return "[]";
+        }
+
         AutoScheduler sg = new AutoScheduler(timeblocks);
         sg.generatePossibleSchedules();
-        return new Gson().toJson(sg.getSchedulePossibilities());
+        ArrayList<Schedule> possible = sg.getSchedulePossibilities();
+
+        if (possible.isEmpty()) {
+            System.out.println("No possible schedules generated.");
+            return "[]";
+        }
+
+        for (Schedule schedule : possible) {
+            schedule.printSchedule();
+        }
+
+        ArrayList<ArrayList<Timeblock>> scheduleCourses = new ArrayList<>();
+        for (Schedule schedule : possible) {
+            scheduleCourses.add(schedule.getSchedule());
+        }
+
+        return new Gson().toJson(scheduleCourses);
     }
 
     @GetMapping("/isConflict")

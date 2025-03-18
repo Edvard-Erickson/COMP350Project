@@ -26,7 +26,7 @@ const Generate = () => {
             .then(response => response.json())
             .then(data => {
                 setSchedules(data);
-                console.log(data);
+                console.log("DATA: ", data);
             })
             .catch(error => console.error('Error fetching data:', error));
         }
