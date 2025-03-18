@@ -1,7 +1,5 @@
 package software.engineering.main;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Section extends Timeblock{
@@ -19,6 +17,7 @@ public class Section extends Timeblock{
         this.section = section;
         this.professor = professor;
         this.semester = semester;
+
 
     }
 
