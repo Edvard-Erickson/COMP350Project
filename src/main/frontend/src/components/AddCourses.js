@@ -37,8 +37,8 @@ export const AddCourses = () => {
     }, [selectedDepartment, professor, startTime, endTime, searchQuery]);
 
     const updateResults = () => {
-        var sTime = '';
-        var eTime = '';
+        var sTime = '00:00:00';
+        var eTime = '23:59:59';
         if (convertToMilitaryTime(startTime) != null) {
             sTime = convertToMilitaryTime(startTime);
             console.log(sTime);
@@ -48,7 +48,7 @@ export const AddCourses = () => {
             console.log(eTime);
         }
         const query = searchQuery ? `/${searchQuery}` : '';
-        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&startTime=${sTime}&endTime=${eTime}`;
+        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&times=${sTime}-${eTime}`;
         console.log(`Fetching URL: ${url}`);
         setResults(
             fetch(url)
@@ -204,7 +204,7 @@ export const AddCourses = () => {
                         <Form.Label>No Classes Before:</Form.Label>
                         <FormControl
                             type="text"
-                            placeholder="Start Time (HH:MM)"
+                            placeholder="HH:MM (AM/PM)"
                             value={startTime}
                             onChange={(e) => setStartTime(e.target.value)}
                             isInvalid={!validateTime(startTime)}
@@ -214,7 +214,7 @@ export const AddCourses = () => {
                         <Form.Label>No Classes After:</Form.Label>
                         <FormControl
                             type="text"
-                            placeholder="End Time (HH:MM)"
+                            placeholder="HH:MM (AM/PM)"
                             value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
                             isInvalid={!validateTime(endTime)}
