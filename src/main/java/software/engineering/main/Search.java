@@ -58,8 +58,7 @@ public class Search {
             results = filtersInUse.get(i).filter(results);
         }
 
-        lastSearch.clear();
-        lastSearch.addAll(results);
+        setLastSearch(results);
         return results;
     }
 
@@ -69,7 +68,15 @@ public class Search {
 
     public void clearFilters() {
         filtersInUse.clear();
-        lastSearch.clear();
-        lastSearch.addAll(fullList);
+        setLastSearch(fullList);
+    }
+
+    public ArrayList<Section> getLastSearch() {
+        return lastSearch;
+    }
+
+    public void setLastSearch(ArrayList<Section> lastSearch) {
+        this.lastSearch.clear();
+        this.lastSearch.addAll(lastSearch);
     }
 }
