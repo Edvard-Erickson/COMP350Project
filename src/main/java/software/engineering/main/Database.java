@@ -40,7 +40,6 @@ public class Database {
                 String courseName = (String) classObj.get("name");
                 long courseCode = (long) classObj.get("number");
                 char section = ((String) classObj.get("section")).charAt(0);
-                String semester = (String) classObj.get("semester");
 
                 JSONArray facultyArray = (JSONArray) classObj.get("faculty");
                 String professor = (facultyArray != null && !facultyArray.isEmpty()) ? (String) facultyArray.get(0) : "Unknown";
@@ -58,7 +57,7 @@ public class Database {
                     }
                 }
 
-                Section sec = new Section(department, (int) courseCode, section, courseName, professor, semester, times);
+                Section sec = new Section(department, (int) courseCode, section, courseName, professor, times);
                 dataList.add(sec);
                 //Section sec = new Section(department, (int) courseCode, section, courseName, professor, startTime, endTime);
                 //dataList.add(sec);
@@ -83,7 +82,6 @@ public class Database {
                     + section.getSection() + " | "
                     + section.getCourseName() + " | "
                     + section.getProfessor() + " | "
-                    + section.getSemester() + " | "
                     + "M: " + (section.getTimes().get("M") != null ? Arrays.toString(section.getTimes().get("M")) : "no times on monday") + " | "
                     + "T: " + (section.getTimes().get("T") != null ? Arrays.toString(section.getTimes().get("T")) : "no times on tuesday") + " | "
                     + "W: " + (section.getTimes().get("W") != null ? Arrays.toString(section.getTimes().get("W")) : "no times on wednesday") + " | "

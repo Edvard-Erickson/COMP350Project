@@ -14,7 +14,6 @@ public class main {
     }
 
     public static void main(String[] args) {
-        /*
         System.out.println("hello");
         System.out.println("Eddie is here");
 
@@ -99,7 +98,5 @@ public class main {
         Gson gson = new Gson();
 
         System.out.println(gson.toJson(a));
-
-         */
     }
 }

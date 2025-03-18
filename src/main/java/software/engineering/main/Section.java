@@ -6,19 +6,15 @@ public class Section extends Timeblock{
     protected String department; // Four Chars (ie. HUMA COMP SSFT)
     protected int courseCode; // three digit code such as (300 200 432)
     protected char section; // a char that repersents each section (ie A B L)
-    private String semester;
     private String professor; //Full name of the professor
 
-    protected Section(String department, int courseCode, char section, String courseName, String professor, String semester, HashMap<String, String[]> times) {
+    protected Section(String department, int courseCode, char section, String courseName, String professor, HashMap<String, String[]> times) {
         //Might Need to flesh out
         super(times, courseName);
         this.department = department;
         this.courseCode = courseCode;
         this.section = section;
         this.professor = professor;
-        this.semester = semester;
-
-
     }
 
     protected String getDepartment() {
@@ -38,8 +34,6 @@ public class Section extends Timeblock{
     }
 
     protected char getSection(){ return this.section;}
-
-    protected String getSemester(){ return this.semester;}
 
     protected boolean sectionOf(Section other) {
         return this.department.equals(other.getDepartment()) && this.courseCode == other.getCourseCode();
