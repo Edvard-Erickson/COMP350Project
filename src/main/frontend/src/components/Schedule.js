@@ -40,10 +40,66 @@ const Schedule = () => {
     }, []);
 
     if (hasConflict) {
-        return <h2>There is a conflict in your schedule</h2>;
+        return (
+            <div>
+            <button onClick={handleFileLoad} class="scheduleButton">Load File</button>
+            <h2>There is a conflict in your schedule</h2>;
+            </div>
+        );
     }
 
+    const handleDownload = () => {
+        const filename = "your_filename.txt";
+        const coursesData = JSON.stringify(courses);
+
+        fetch(`http://localhost:8080/download?filename=${filename}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: coursesData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => console.error('Error downloading file:', error));
+    };
+
+    const handleFileLoad = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('http://localhost:8080/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('File uploaded successfully:', data);
+            })
+            .catch(error => console.error('Error uploading file:', error));
+        }
+    };
+
     return (
+        <div>
+            <button onClick={handleDownload} class="scheduleButton">Save As</button>
+            <button onClick={handleFileLoad} class="scheduleButton">Load File</button>
         <FullCalendar
             height='auto'
             expandRows={true}
@@ -74,7 +130,8 @@ const Schedule = () => {
             slotMinTime='06:00:00'
             slotMaxTime='22:00:00'
         />
-    )
+    </div>
+    );
 }
 
 export default Schedule;

@@ -40,6 +40,13 @@ const Generate = () => {
         setCurrentScheduleIndex((prevIndex) => (prevIndex - 1 + schedules.length) % schedules.length);
     };
 
+    const handleSetMainSchedule = () => {
+        const currentSchedule = schedules[currentScheduleIndex];
+        const courseIds = currentSchedule.map(course => `${course.department}${course.courseCode}${course.section}${course.semester}`);
+        cookies.save('selectedCourses', courseIds, { path: '/' });
+        alert('Main schedule set successfully!');
+    };
+
     if (schedules.length === 0) {
         return <h2>Loading schedules...</h2>;
     }
@@ -48,8 +55,10 @@ const Generate = () => {
 
     return (
         <div>
-            <button onClick={handlePreviousSchedule}>Previous</button>
-            <button onClick={handleNextSchedule}>Next</button>
+            <button onClick={handlePreviousSchedule} className="generateButton">Previous</button>
+            <span>{currentScheduleIndex + 1} / {schedules.length}</span>
+            <button onClick={handleNextSchedule} className="generateButton">Next</button>
+            <button onClick={handleSetMainSchedule} className="generateButton">Set Main Schedule</button>
             <FullCalendar
                 height='auto'
                 expandRows={true}
@@ -76,6 +85,9 @@ const Generate = () => {
                         endRecur: '2027-12-31'
                     }))
                 )}
+                eventColor='#444'
+                slotMinTime='06:00:00'
+                slotMaxTime='22:00:00'
             />
         </div>
     );

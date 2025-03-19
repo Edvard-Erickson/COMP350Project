@@ -66,8 +66,16 @@ task copyFrontendToBuild(type: Copy) {
     into "$buildDir/resources/main/static"
 }
 
+task npmStart(type: NpmTask) {
+    dependsOn 'npmInstallDependencies'
+    execOverrides {
+        it.workingDir = 'src/main/frontend'
+    }
+    args = ['start']
+}
+
 processResources {
-    dependsOn 'copyFrontendToBuild'
+    dependsOn 'npmStart'
 }
 
 jar{

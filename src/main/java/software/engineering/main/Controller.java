@@ -15,7 +15,9 @@ public class Controller {
     public Controller() {
         Database db = new Database();
         db.readFile();
-        this.   courseList = db.getDataList();
+        this.courseList = db.getDataList();
+
+        courseList.removeIf(s -> !s.getSemester().equals("2025_Spring"));
 
         db.printData();
 
@@ -92,7 +94,10 @@ public class Controller {
             return "[]";
         }
 
-        AutoScheduler sg = new AutoScheduler(timeblocks);
+        AutoScheduler sg = new AutoScheduler(courseList);
+        for (Section s : timeblocks) {
+            sg.addToPossibleCourseList(s);
+        }
         sg.generatePossibleSchedules();
         ArrayList<Schedule> possible = sg.getSchedulePossibilities();
 
@@ -139,14 +144,15 @@ public class Controller {
     public ArrayList<Section> toCourseObjects(List<String> courses) {
         ArrayList<Section> timeblocks = new ArrayList<>();
         for (String course : courses) {
-            Pattern pattern = Pattern.compile("([A-Z]+)(\\d{3})([A-Z])");
+            Pattern pattern = Pattern.compile("([A-Z]+)(\\d{3})([A-Z])(\\d{4}_[A-Za-z]+)");
             Matcher matcher = pattern.matcher(course);
             if (matcher.matches()) {
                 String department = matcher.group(1);
                 int courseCode = Integer.parseInt(matcher.group(2));
                 char section = matcher.group(3).charAt(0);
+                String semester = matcher.group(4);
                 for (Section c : courseList) {
-                    if (c.getDepartment().equals(department) && c.getCourseCode() == courseCode && c.getSection() == section) {
+                    if (c.getDepartment().equals(department) && c.getCourseCode() == courseCode && c.getSection() == section && c.getSemester().equals(semester)) {
                         timeblocks.add(c);
                         System.out.println("COURSE: " + c.getCourseName() + " " + c.getSection());
                         for (String day : c.getTimes().keySet()) {
