@@ -1,6 +1,14 @@
 package software.engineering.main;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Schedule {
     private ArrayList<Section> classes;
@@ -72,5 +80,78 @@ public class Schedule {
             }
         }
         return false;
+    }
+
+    protected static ArrayList<Schedule> loadSchedules(String filePath) {
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+
+        try (InputStreamReader reader = new InputStreamReader(Schedule.class.getClassLoader().getResourceAsStream(filePath))) {
+            if (reader == null) {
+                throw new IOException("File not found: " + filePath);
+            }
+
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray schedulesArray = (JSONArray) jsonObject.get("schedules");
+
+            for (Object obj : schedulesArray) {
+                JSONObject scheduleObj = (JSONObject) obj;
+                Schedule schedule = new Schedule();
+
+                JSONArray sectionsArray = (JSONArray) scheduleObj.get("sections");
+                for (Object sectionObj : sectionsArray) {
+                    JSONObject sectionJson = (JSONObject) sectionObj;
+
+                    String department = (String) sectionJson.get("subject");
+                    String courseName = (String) sectionJson.get("name");
+                    long courseCode = (long) sectionJson.get("number");
+                    char section = ((String) sectionJson.get("section")).charAt(0);
+                    String professor = (String) sectionJson.get("professor");
+                    String semester = (String) sectionJson.get("semester");
+
+                    HashMap<String, String[]> times = new HashMap<>();
+                    JSONArray timesArray = (JSONArray) sectionJson.get("times");
+                    if (timesArray != null) {
+                        for (Object timeObj : timesArray) {
+                            JSONObject timeBlock = (JSONObject) timeObj;
+                            String day = (String) timeBlock.get("day");
+                            String startTime = (String) timeBlock.get("start_time");
+                            String endTime = (String) timeBlock.get("end_time");
+                            times.put(day, new String[]{startTime, endTime});
+                        }
+                    }
+
+                    Section sec = new Section(department, (int) courseCode, section, courseName, professor, semester, times);
+                    schedule.addSection(sec);
+                }
+
+                JSONArray timeblocksArray = (JSONArray) scheduleObj.get("timeblocks");
+                for (Object timeblockObj : timeblocksArray) {
+                    JSONObject timeblockJson = (JSONObject) timeblockObj;
+
+                    HashMap<String, String[]> times = new HashMap<>();
+                    JSONArray timesArray = (JSONArray) timeblockJson.get("times");
+                    if (timesArray != null) {
+                        for (Object timeObj : timesArray) {
+                            JSONObject timeBlock = (JSONObject) timeObj;
+                            String day = (String) timeBlock.get("day");
+                            String startTime = (String) timeBlock.get("start_time");
+                            String endTime = (String) timeBlock.get("end_time");
+                            times.put(day, new String[]{startTime, endTime});
+                        }
+                    }
+
+                    Timeblock timeblock = new Timeblock(times);
+                    schedule.addTimeblock(timeblock);
+                }
+
+                schedules.add(schedule);
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return schedules;
     }
 }
