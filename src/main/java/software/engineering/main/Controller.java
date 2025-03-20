@@ -48,7 +48,8 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
-        System.out.println(new Gson().toJson(filteredSearch.courseSearch(query)));
+
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch(query).size());
         return new Gson().toJson(filteredSearch.courseSearch(query));
     }
 
@@ -77,6 +78,7 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch("").size());
         return new Gson().toJson(filteredSearch.courseSearch(""));
     }
 
