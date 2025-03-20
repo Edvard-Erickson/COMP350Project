@@ -45,5 +45,5 @@ bin/
 .idea/
 
 ### unsure of what these do
-#gradlew
-#gradlew.bat
+gradlew
+gradlew.bat
