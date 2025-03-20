@@ -104,20 +104,6 @@ public class main {
         scheduleA.addSection(c);
         scheduleA.addSection(d);
 
-        saveToSchedule(scheduleA, "ScheduleA");
-    }
-
-    public static void saveToSchedule(Schedule s, String fileName) {
-        try {
-            Gson gson = new Gson().newBuilder().create();
-            String json = gson.toJson(s);
-
-            FileWriter writer = new FileWriter("src/main/resources/"+fileName+".json");
-            writer.write(json);
-            writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        scheduleA.saveToSchedule("ScheduleA");
     }
 }
