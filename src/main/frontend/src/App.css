@@ -322,3 +322,13 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
     text-decoration: none;
     color: #999;
 }
+
+.generateButton, .scheduleButton {
+    margin: 3px !important;
+    padding: 10px !important;
+    text-align: center;
+    background-color: #222 !important;
+    color: #DDD;
+    border: none !important;
+    border-radius: 0px !important;
+}

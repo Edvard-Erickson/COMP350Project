@@ -59,12 +59,13 @@ const ViewCourses = () => {
                                         <th>Section</th>
                                         <th>Professor</th>
                                         <th>Times</th>
+                                        <th>Semester</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {courses.map((course) => (
-                                        <tr key={`${course.department}${course.courseCode}${course.section}`}>
-                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}`}></input></td>
+                                        <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
                                             <td>{course.department}{course.courseCode}</td>
                                             <td>{course.name}</td>
                                             <td>{course.section}</td>
@@ -74,6 +75,7 @@ const ViewCourses = () => {
                                                     <span key={time}> {sortDays(days).join('')}: {time} </span>
                                                 ))}
                                             </td>
+                                            <td>{course.semester}</td>
                                         </tr>
                                     ))}
                                     {timeBlocks.map((timeBlock, index) => (

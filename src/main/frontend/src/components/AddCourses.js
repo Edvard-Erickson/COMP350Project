@@ -36,6 +36,7 @@ export const AddCourses = () => {
     const [professor, setProfessor] = useState('');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
+    const [semester, setSemester] = useState('2025_Spring');
     const [currentPage, setCurrentPage] = useState(1);
     const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
     const itemsPerPage = 20;
@@ -246,12 +247,13 @@ export const AddCourses = () => {
                             <th>Section</th>
                             <th>Professor</th>
                             <th>Times</th>
+                            <th>Semester</th>
                         </tr>
                     </thead>
                     <tbody>
                         {paginatedResults.map((course) => (
-                            <tr key={`${course.department}${course.courseCode}${course.section}`}>
-                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}`}></input></td>
+                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
                                 <td>{course.department}{course.courseCode}</td>
                                 <td>{course.name}</td>
                                 <td>{course.section}</td>
@@ -261,6 +263,7 @@ export const AddCourses = () => {
                                         <span key={time}> {sortDays(days).join('')}: {time} </span>
                                     ))}
                                 </td>
+                                <td>{course.semester}</td>
                             </tr>
                         ))}
                     </tbody>
