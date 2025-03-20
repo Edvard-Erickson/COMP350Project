@@ -101,6 +101,7 @@ public class Schedule {
         return file;
     }
 
+    //load a schedule from resources with the filepath, returns a Schedule object
     protected static Schedule loadSchedule(String filePath) {
         Schedule schedule = new Schedule();
         JSONParser parser = new JSONParser();
