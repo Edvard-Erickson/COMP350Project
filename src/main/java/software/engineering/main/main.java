@@ -14,7 +14,6 @@ public class main {
     }
 
     public static void main(String[] args) {
-        /*
         System.out.println("hello");
         System.out.println("Eddie is here");
 
@@ -26,7 +25,7 @@ public class main {
         atimes.put("M", new String[]{"10:00:00", "10:50:00"});
         atimes.put("W", new String[]{"10:00:00", "10:50:00"});
         atimes.put("F", new String[]{"10:00:00", "10:50:00"});
-        Section a = new Section("COMP", 101, 'A', "Intro to CS", "John", "",atimes);
+        Section a = new Section("COMP", 101, 'A', "Intro to CS", "John", "", atimes);
 
         HashMap<String, String[]> btimes = new HashMap<>();
         btimes.put("M", new String[]{"10:00:00", "10:50:00"});
@@ -46,7 +45,7 @@ public class main {
         dtimes.put("M", new String[]{"1:00:00", "1:50:00"});
         dtimes.put("W", new String[]{"1:00:00", "1:50:00"});
         dtimes.put("F", new String[]{"1:00:00", "1:50:00"});
-        Section d = new Section("MATH", 238, 'A', "Differential Equations", "Alex", "",dtimes);
+        Section d = new Section("MATH", 238, 'A', "Differential Equations", "Alex", "", dtimes);
 
         ArrayList<Section> courseList = new ArrayList<>();
         courseList.add(a);
@@ -99,7 +98,5 @@ public class main {
         Gson gson = new Gson();
 
         System.out.println(gson.toJson(a));
-
-         */
     }
 }
