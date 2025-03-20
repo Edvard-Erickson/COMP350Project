@@ -1,10 +1,7 @@
 html, #root {
     background-color: #333;
-    color: #BBB;
-}
-
-#homePageGreeting {
-    color: #BBB;
+    color: #DDD;
+    font-family: 'Roboto', sans-serif;
 }
 
 .navbar-nav {
@@ -15,6 +12,41 @@ html, #root {
     left: 0;
     width: 100%;
     background-color: #111;
+}
+
+h2 {
+    margin: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    font-weight: bold;
+}
+
+.button {
+    margin: 3px !important;
+    padding: 10px !important;
+    text-align: center !important;
+    background-color: #222 !important;
+    color: #DDD !important;
+    border: none !important;
+    line-height: 50%;
+    border-radius: 7px !important;
+}
+
+.button:hover {
+    background-color: #555 !important;
+    color: #FFF !important;
+}
+
+.button:disabled {
+    opacity: 0.5;
+}
+
+::file-selector-button {
+  display: none;
+}
+
+.button-container {
+    padding: 1%;
 }
 
 .navbar-nav .nav-link {
@@ -52,28 +84,15 @@ a, a:link, a:visited, a:active {
     margin: auto;
 }
 
-#homeButtons .col .row a, .dropdown-toggle {
+#homeButtons .col .row .button.main, .dropdown-toggle {
     width: 100%;
     margin: 3px !important;
-    padding: 10px !important;
-    text-align: center;
-    background-color: #222 !important;
-    color: #DDD;
-    border: none !important;
-    border-radius: 0px !important;
+    padding: 3% !important;
 }
 
 .custom-dropdown {
     margin: 0px !important;
     padding: 0px !important;
-}
-
-#homeButtons .col .row a:hover,
-.custom-dropdown:hover .dropdown-toggle,
-.custom-dropdown:hover .dropdown-toggle:active,
-.custom-dropdown:hover .dropdown-toggle:focus {
-    color: #FFF !important;
-    background-color: #555 !important;
 }
 
 #home {
@@ -89,32 +108,22 @@ a, a:link, a:visited, a:active {
 }
 
 #settingsForm {
-    margin-top: 5%;
+    margin-top: 1%;
+    margin-bottom: 1%;
     margin-left: 5%;
-}
-
-.dropdown-toggle {
-    color: #DDD !important;
-}
-
-.dropdown-toggle:hover {
-    color: #FFF !important;
 }
 
 .dropdown-menu {
     padding: 0 !important;
+    min-height: 50%;
+    min-width: 20%;
     background-color: #444 !important;
     color: #DDD #important;
 }
 
 .dropdown-item {
     width: 96% !important;
-    margin: 2% !important;
-}
-
-.dropdown-item:hover {
-    background-color: #555 !important;
-    color: #FFF !important;
+    padding: 20px !important;
 }
 
 .custom-dropdown .dropdown-toggle:focus,
@@ -181,10 +190,9 @@ a, a:link, a:visited, a:active {
 }
 
 .filterButton {
-    width: 18%;
-    margin: 1%;
+    width: 18% !important;
+    margin: 1% !important;
     background-color: #333 !important;
-    border: 2px black !important;
 }
 
 .filterForm {
@@ -206,9 +214,7 @@ a, a:link, a:visited, a:active {
 }
 
 .filterGroup .form-label {
-    color: #FFF;
     margin: auto;
-    font-size: 1.2vw;
 }
 .fullWidthTable {
     width: 100%;
@@ -223,18 +229,16 @@ a, a:link, a:visited, a:active {
 
 .fullWidthTable th {
     background-color: #222;
-    color: #AAA;
+    font-width: bold;
     text-align: center;
 }
 
 .fullWidthTable tr:nth-child(2n) {
     background-color: #444;
-    color: #AAA;
 }
 
 .fullWidthTable tr:nth-child(2n+1) {
     background-color: #555;
-    color: #AAA;
 }
 
 .pagination {
@@ -249,31 +253,10 @@ a, a:link, a:visited, a:active {
     margin: 0 10px;
 }
 
-.pagination button {
-    padding: 5px 10px;
-    background-color: #222 !important;
-    color: #DDD;
-    border: none;
-    cursor: pointer;
-}
-
-.pagination button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #444 !important;
-}
-
-.pagination button:hover {
-    background-color: #444 !important;
-}
-
-
 .addButton {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #222 !important;
-    border: 1px black !important;
 }
 
 .createTimeBlock {
@@ -287,11 +270,6 @@ a, a:link, a:visited, a:active {
 .viewCourseButton {
     position: fixed;
     bottom: 20px;
-    height: 5%;
-    padding: 10px !important;
-    line-height: 50% !important;
-    background-color: #222 !important;
-    border: 1px #FFF !important;
 }
 
 .viewCourseButton:hover {
@@ -323,12 +301,6 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
     color: #999;
 }
 
-.generateButton, .scheduleButton {
-    margin: 3px !important;
-    padding: 10px !important;
-    text-align: center;
-    background-color: #222 !important;
-    color: #DDD;
-    border: none !important;
-    border-radius: 0px !important;
+.fc-scrollgrid-section-body {
+    background-color: #444;
 }

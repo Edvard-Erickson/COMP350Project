@@ -1,7 +1,16 @@
 package software.engineering.main;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +29,62 @@ public class Controller {
         courseList.removeIf(s -> !s.getSemester().equals("2025_Spring"));
 
         this.s = new Search(courseList);
+    }
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<ByteArrayResource> download(@PathVariable String fileName, @RequestParam List<String> courses) {
+        ArrayList<Section> timeblocks = toCourseObjects(courses);
+        if (timeblocks.isEmpty()) {
+            System.out.println("No valid courses found for the given input.");
+            ResponseEntity.badRequest().build();
+        }
+        Schedule schedule = new Schedule();
+        for (Section s : timeblocks) {
+            schedule.addSection(s);
+        }
+
+        File file = schedule.saveToSchedule(fileName);
+
+        try {
+            byte[] contentBytes = Files.readAllBytes(file.toPath());
+            ByteArrayResource resource = new ByteArrayResource(contentBytes);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + ".json\"")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(contentBytes.length)
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return "[]";
+        }
+
+        try {
+            // Save the uploaded file to a temporary location
+            File tempFile = File.createTempFile("uploaded-", ".json");
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(file.getBytes());
+            }
+
+            // Load the schedule from the saved file
+            Schedule schedule = Schedule.loadSchedule(tempFile.getAbsolutePath());
+
+            // Process the schedule as needed
+            // For example, print the schedule
+            schedule.printSchedule();
+
+            return new Gson().toJson(schedule.getSchedule());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "[]";
+        }
     }
 
     @GetMapping("/search/{query}")

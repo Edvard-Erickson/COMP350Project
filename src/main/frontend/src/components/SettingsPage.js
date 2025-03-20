@@ -73,7 +73,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Add Program</button>
+                <button type="submit" className="button">Add Program</button>
             </form>
             <p>REMOVE A PROGRAM:</p>
             <form id="settingsForm" onSubmit={removeProgram}>
@@ -85,7 +85,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Remove Program</button>
+                <button type="submit" className="button">Remove Program</button>
             </form>
         </div>
     )
