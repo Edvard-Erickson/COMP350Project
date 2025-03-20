@@ -19,8 +19,6 @@ public class Controller {
 
         courseList.removeIf(s -> !s.getSemester().equals("2025_Spring"));
 
-        db.printData();
-
         this.s = new Search(courseList);
     }
 
