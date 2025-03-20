@@ -8,7 +8,7 @@ public class ProfessorFilter extends Filter {
 
     public ProfessorFilter(String professor) {
         super();
-        this.professor = professor;
+        this.professor = professor.toLowerCase();
     }
 
     @Override
@@ -16,7 +16,7 @@ public class ProfessorFilter extends Filter {
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         for (int i = 0; i < sectionList.size(); i++) {
-            if (sectionList.get(i).getProfessor().equals(professor)) {
+            if (sectionList.get(i).getProfessor().toLowerCase().equals(professor)) {
                 returnList.add(sectionList.get(i));
             }
         }

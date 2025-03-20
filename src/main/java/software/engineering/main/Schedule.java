@@ -1,5 +1,10 @@
 package software.engineering.main;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Schedule {
@@ -72,5 +77,21 @@ public class Schedule {
             }
         }
         return false;
+    }
+
+    public File saveToSchedule(String fileName) {
+        File file = new File("src/main/resources/" + fileName + ".json");
+        try {
+            Gson gson = new Gson().newBuilder().create();
+            String json = gson.toJson(this);
+
+            FileWriter writer = new FileWriter(file);
+            writer.write(json);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }
