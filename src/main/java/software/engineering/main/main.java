@@ -1,7 +1,5 @@
 package software.engineering.main;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.google.gson.Gson;
@@ -16,6 +14,7 @@ public class main {
     }
 
     public static void main(String[] args) {
+        /*
         System.out.println("hello");
         System.out.println("Eddie is here");
 
@@ -100,10 +99,7 @@ public class main {
         Gson gson = new Gson();
 
         System.out.println(gson.toJson(a));
-        Schedule scheduleA = new Schedule();
-        scheduleA.addSection(c);
-        scheduleA.addSection(d);
 
-        scheduleA.saveToSchedule("ScheduleA");
+         */
     }
 }

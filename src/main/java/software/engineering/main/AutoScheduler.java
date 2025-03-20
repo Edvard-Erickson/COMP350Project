@@ -44,7 +44,7 @@ public class AutoScheduler {
         this.CourseList.remove(sec);
     }
 
-    public ArrayList<Schedule> getSchedulePossibilties() {
+    public ArrayList<Schedule> getSchedulePossibilities() {
         return SchedulePossibilties;
     }
 

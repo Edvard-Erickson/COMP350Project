@@ -6,8 +6,8 @@ public class Section extends Timeblock{
     protected String department; // Four Chars (ie. HUMA COMP SSFT)
     protected int courseCode; // three digit code such as (300 200 432)
     protected char section; // a char that repersents each section (ie A B L)
-    private String semester;
     private String professor; //Full name of the professor
+    private String semester;
 
     protected Section(String department, int courseCode, char section, String courseName, String professor, String semester, HashMap<String, String[]> times) {
         //Might Need to flesh out
@@ -17,8 +17,6 @@ public class Section extends Timeblock{
         this.section = section;
         this.professor = professor;
         this.semester = semester;
-
-
     }
 
     protected String getDepartment() {

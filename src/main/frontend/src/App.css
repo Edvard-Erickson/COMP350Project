@@ -1,0 +1,334 @@
+html, #root {
+    background-color: #333;
+    color: #BBB;
+}
+
+#homePageGreeting {
+    color: #BBB;
+}
+
+.navbar-nav {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #111;
+}
+
+.navbar-nav .nav-link {
+    display: inline-block;
+}
+
+.navbar-nav .nav-link:hover {
+     background-color: #666;
+     color: #FFF;
+ }
+
+body {
+    padding-top: 20px;
+}
+
+a, a:link, a:visited, a:active {
+    float: left;
+    padding: 4px;
+    margin: 2px;
+    text-decoration: none;
+    color: #DDD;
+}
+
+#homePageGreeting {
+    margin: auto;
+    margin-top: 7%;
+    margin-bottom: 6%;
+    width: 20%;
+    text-align: center;
+    font-size: 130%;
+}
+
+#homeButtons {
+    width: 50%;
+    margin: auto;
+}
+
+#homeButtons .col .row a, .dropdown-toggle {
+    width: 100%;
+    margin: 3px !important;
+    padding: 10px !important;
+    text-align: center;
+    background-color: #222 !important;
+    color: #DDD;
+    border: none !important;
+    border-radius: 0px !important;
+}
+
+.custom-dropdown {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+#homeButtons .col .row a:hover,
+.custom-dropdown:hover .dropdown-toggle,
+.custom-dropdown:hover .dropdown-toggle:active,
+.custom-dropdown:hover .dropdown-toggle:focus {
+    color: #FFF !important;
+    background-color: #555 !important;
+}
+
+#home {
+    width: 100%;
+    margin: 3px;
+    background-color: #222;
+    text-align: center;
+}
+
+#err {
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+#settingsForm {
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+.dropdown-toggle {
+    color: #DDD !important;
+}
+
+.dropdown-toggle:hover {
+    color: #FFF !important;
+}
+
+.dropdown-menu {
+    padding: 0 !important;
+    background-color: #444 !important;
+    color: #DDD #important;
+}
+
+.dropdown-item {
+    width: 96% !important;
+    margin: 2% !important;
+}
+
+.dropdown-item:hover {
+    background-color: #555 !important;
+    color: #FFF !important;
+}
+
+.custom-dropdown .dropdown-toggle:focus,
+.custom-dropdown .dropdown-toggle:active {
+    background-color: #222 !important;
+    color: #DDD !important;
+    border: none !important;
+}
+
+.scrollList {
+    list-style-type: none;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.scrollList li {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.scrollList li * {
+    padding: 7px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.scrollList li:nth-child(2) {
+    background-color: #CCC;
+}
+
+.check {
+    margin: auto;
+}
+
+.courseInfo {
+    margin: auto;
+}
+
+.fc-event-title {
+    white-space: normal !important;
+    overflow: visible !important;
+}
+
+.fc-event {
+    height: auto !important;
+    padding: 0px !important;
+}
+
+#addCourseForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: #222;
+}
+
+.searchBar {
+    width: 79% !important;
+    padding: 5px !important;
+    margin-left: 1%;
+}
+
+.filterButton {
+    width: 18%;
+    margin: 1%;
+    background-color: #333 !important;
+    border: 2px black !important;
+}
+
+.filterForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1%;
+    background-color: #222;
+    padding: 1%;
+}
+
+.filterForm *:nth-child(n+3) {
+    margin-top: 1%;
+}
+
+.filterGroup {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-contents: center;
+}
+
+.filterGroup .form-label {
+    color: #FFF;
+    margin: auto;
+    font-size: 1.2vw;
+}
+.fullWidthTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.fullWidthTable th, .fullWidthTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.fullWidthTable th {
+    background-color: #222;
+    color: #AAA;
+    text-align: center;
+}
+
+.fullWidthTable tr:nth-child(2n) {
+    background-color: #444;
+    color: #AAA;
+}
+
+.fullWidthTable tr:nth-child(2n+1) {
+    background-color: #555;
+    color: #AAA;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    background-color: #222 !important;
+    color: #DDD;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #444 !important;
+}
+
+.pagination button:hover {
+    background-color: #444 !important;
+}
+
+
+.addButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #222 !important;
+    border: 1px black !important;
+}
+
+.createTimeBlock {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #222 !important;
+    border: 1px black !important;
+}
+
+.viewCourseButton {
+    position: fixed;
+    bottom: 20px;
+    height: 5%;
+    padding: 10px !important;
+    line-height: 50% !important;
+    background-color: #222 !important;
+    border: 1px #FFF !important;
+}
+
+.viewCourseButton:hover {
+    background-color: #555 !important;
+}
+
+.buttonButton {
+    left: 20px;
+}
+
+.linkButton {
+    right: 20px;
+    border-radius: 7px;
+}
+
+.fc-timegrid-slot-label-cushion {
+    color: #BBB !important;
+}
+
+table .fc-col-header .fc-col-header-cell, table colgroup {
+    background-color: #111;
+}
+
+.fc-col-header-cell-cushion {
+    float: left;
+    padding: 4px;
+    margin: 2px;
+    text-decoration: none;
+    color: #999;
+}
+
+.generateButton, .scheduleButton {
+    margin: 3px !important;
+    padding: 10px !important;
+    text-align: center;
+    background-color: #222 !important;
+    color: #DDD;
+    border: none !important;
+    border-radius: 0px !important;
+}
