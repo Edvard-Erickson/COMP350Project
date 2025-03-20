@@ -1,3 +1,5 @@
+import org.gradle.process.ExecResult
+
 plugins {
     id 'io.spring.dependency-management' version '1.1.7'
     id 'com.github.node-gradle.node' version '3.5.1'
@@ -23,6 +25,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 test {
@@ -30,8 +34,8 @@ test {
 }
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 node {
@@ -66,14 +70,21 @@ task copyFrontendToBuild(type: Copy) {
     into "$buildDir/resources/main/static"
 }
 
+task npmStart(type: NpmTask) {
+    dependsOn 'copyFrontendToBuild'
+    workingDir = file('src/main/frontend')
+    args = ['start', '--port', '3000']
+}
+
 processResources {
     dependsOn 'copyFrontendToBuild'
 }
 
-jar{
-    manifest{
-        attributes "Main-class" : "software.engineering.main"
-    }from{
-        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+jar {
+    manifest {
+        attributes "Main-class": "software.engineering.main"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
