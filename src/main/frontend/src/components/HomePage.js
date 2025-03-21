@@ -1,3 +1,4 @@
+// this component handles the home page (localhost:3000/).
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import Image from 'react-bootstrap/Image'

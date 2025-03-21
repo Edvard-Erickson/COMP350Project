@@ -1,3 +1,4 @@
+// this component handles the generate schedules page, getting schedules from the backend and displaying them.
 import { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';

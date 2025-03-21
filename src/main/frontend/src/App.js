@@ -1,3 +1,4 @@
+// general app that loads all of the components as necessary. Always features a navigation bar.
 import './App.css'
 import HomePage from './components/HomePage.js'
 import Page404 from './components/Page404.js'

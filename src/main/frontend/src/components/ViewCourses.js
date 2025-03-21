@@ -1,3 +1,5 @@
+/* handles the view courses page, where the user can see courses they have on their schedule currently. They can also
+ remove these courses from their schedule */
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import cookies from 'react-cookies'

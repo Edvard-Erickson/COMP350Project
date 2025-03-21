@@ -1,3 +1,4 @@
+// handles the settings page, which for now handles setting a list of majors.
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies';
