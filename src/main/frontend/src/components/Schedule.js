@@ -1,3 +1,4 @@
+// handles the page where the user can view the schedule they have made. Will not show a schedule if there are conflicts.
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import FullCalendar from '@fullcalendar/react'
@@ -148,7 +149,7 @@ const Schedule = () => {
                     endRecur: '2027-12-31'
                 }))
             )}
-            eventColor='#444'
+            eventColor='#333'
             slotMinTime='06:00:00'
             slotMaxTime='22:00:00'
         />

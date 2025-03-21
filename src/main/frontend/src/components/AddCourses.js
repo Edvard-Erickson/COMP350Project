@@ -1,7 +1,7 @@
 // This component is responsible for displaying the search bar and the list of courses that can be added to the schedule.
 // Page feature added by AI.
 import { useEffect, useState } from 'react';
-import { Form, FormControl, Button, Modal } from 'react-bootstrap';
+import { Form, FormControl, Button } from 'react-bootstrap';
 import cookies from 'react-cookies';
 
 export const sortDays = (days) => {
@@ -42,16 +42,22 @@ export const AddCourses = () => {
     const [semester, setSemester] = useState('2025_Spring');
     const [currentPage, setCurrentPage] = useState(1);
     const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
+    const [selectedDays, setSelectedDays] = useState([]);
     const itemsPerPage = 20;
     var counter = 0;
 
     useEffect(() => {
         updateResults();
-    }, [selectedDepartment, professor, startTime, endTime, searchQuery]);
+    }, [selectedDepartment, professor, startTime, endTime, searchQuery, selectedDays]);
 
     const updateResults = () => {
         var sTime = '00:00:00';
         var eTime = '23:59:59';
+        var days = ['M', 'T', 'W', 'R', 'F'];
+        if (selectedDays.length > 0) {
+            console.log(selectedDays);
+            days = selectedDays;
+        }
         if (convertToMilitaryTime(startTime) != null) {
             sTime = convertToMilitaryTime(startTime);
         }
@@ -60,8 +66,9 @@ export const AddCourses = () => {
         }
 
         const query = searchQuery ? `/${searchQuery}` : '';
-        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&times=${sTime}-${eTime}`;
+        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&days=${days.join(',')}&times=${sTime}-${eTime}`;
         setFilteredResults([]);
+        setCurrentPage(1);
 
         fetch(url)
             .then(response => response.json())
@@ -88,11 +95,29 @@ export const AddCourses = () => {
         return `${hours.toString().padStart(2, '0')}:${minutes}:00`;
     };
 
+    const handleDayChange = (day) => {
+        setSelectedDays((prevDays) =>
+            prevDays.includes(day)
+                ? prevDays.filter((d) => d !== day)
+                : [...prevDays, day]
+        );
+    };
+
     const addCourse = () => {
         var selectedCourses = Array.from(document.querySelectorAll('.check:checked')).map((checkbox) => checkbox.id);
         const existingCourses = cookies.load('selectedCourses') || [];
         selectedCourses = selectedCourses.filter(course => !existingCourses.includes(course));
         const allCourses = existingCourses.concat(selectedCourses);
+
+        if (existingCourses.length >= 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
+
+        if (allCourses.length > 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
 
         for (let element of Array.from(document.querySelectorAll('.check:checked'))) {
             element.checked = false;
@@ -145,6 +170,22 @@ export const AddCourses = () => {
     }
 
     const paginatedResults = paginate(filteredResults, currentPage, itemsPerPage);
+
+    const toggleRowHighlight = () => {
+        let ids = [];
+        for (let element of document.querySelectorAll('.check:checked')) {
+            ids.push(element.id);
+        }
+        for (let element of document.querySelectorAll('tr')) {
+            console.log(ids);
+            console.log(element.id);
+            if (ids.includes(element.id)) {
+                element.className = 'highlighted-row';
+            } else {
+                element.className = '';
+            }
+        }
+    };
 
     return (
             <div>
@@ -235,7 +276,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes Before:</Form.Label>
+                            <Form.Label>No Classes Before: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -245,7 +286,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes After:</Form.Label>
+                            <Form.Label>No Classes After: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -253,6 +294,17 @@ export const AddCourses = () => {
                                 onChange={(e) => setEndTime(e.target.value)}
                                 isInvalid={!validateTime(endTime)}
                             />
+                        </Form.Group>
+                        <Form.Group className="daysFilter">
+                            {['M', 'T', 'W', 'R', 'F'].map((day) => (
+                                <Form.Check
+                                    key={day}
+                                    type="checkbox"
+                                    label={day}
+                                    checked={selectedDays.includes(day)}
+                                    onChange={() => handleDayChange(day)}
+                                />
+                            ))}
                         </Form.Group>
                     </Form>
                 )}
@@ -270,8 +322,8 @@ export const AddCourses = () => {
                     </thead>
                     <tbody>
                         {paginatedResults.map((course) => (
-                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
+                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                 <td>{course.department}{course.courseCode}</td>
                                 <td>{course.name}</td>
                                 <td>{course.section}</td>

@@ -90,17 +90,25 @@ public class Controller {
     @GetMapping("/search/{query}")
     public String getSearchResults(@PathVariable String query, @RequestParam Map<String, String> filters) {
         s.clearFilters();
+        String[] days = {"M", "T", "W", "R", "F"};
         for (Map.Entry<String, String> filter : filters.entrySet()) {
             if (!filter.getValue().isEmpty()) {
                 switch (filter.getKey()) {
                     case "department" -> s.addFilter(new DepartmentFilter(filter.getValue()));
                     case "professor" -> s.addFilter(new ProfessorFilter(filter.getValue()));
+                    case "days" -> {
+                        System.out.println(filter.getValue());
+                        if (filter.getValue().isEmpty()) {
+                            break;
+                        }
+                        days = filter.getValue().split(",");
+                    }
                     case "times" -> {
                         System.out.println(filter.getValue());
                         String[] times = filter.getValue().split(",");
                         HashMap<String, String[]> timeMap = new HashMap<>();
                         for (String time : times) {
-                            for (String key : new String[]{"M", "T", "W", "R", "F"}) {
+                            for (String key : days) {
                                 String[] timeRange = time.split("-");
                                 timeMap.put(key, timeRange);
                             }
@@ -111,12 +119,14 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
-        System.out.println(new Gson().toJson(filteredSearch.courseSearch(query)));
+
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch(query).size());
         return new Gson().toJson(filteredSearch.courseSearch(query));
     }
 
     @GetMapping("/search")
     public String getEmptySearch(@RequestParam Map<String, String> filters) {
+        String[] days = {"M", "T", "W", "R", "F"};
         System.out.println("EMPTY SEARCH");
         s.clearFilters();
         for (Map.Entry<String, String> filter : filters.entrySet()) {
@@ -124,12 +134,19 @@ public class Controller {
                 switch (filter.getKey()) {
                     case "department" -> s.addFilter(new DepartmentFilter(filter.getValue()));
                     case "professor" -> s.addFilter(new ProfessorFilter(filter.getValue()));
+                    case "days" -> {
+                        System.out.println(filter.getValue());
+                        if (filter.getValue().isEmpty()) {
+                            break;
+                        }
+                        days = filter.getValue().split(",");
+                    }
                     case "times" -> {
                         System.out.println(filter.getValue());
                         String[] times = filter.getValue().split(",");
                         HashMap<String, String[]> timeMap = new HashMap<>();
                         for (String time : times) {
-                            for (String key : new String[]{"M", "T", "W", "R", "F"}) {
+                            for (String key : days) {
                                 String[] timeRange = time.split("-");
                                 timeMap.put(key, timeRange);
                             }
@@ -140,6 +157,7 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch("").size());
         return new Gson().toJson(filteredSearch.courseSearch(""));
     }
 

@@ -201,6 +201,20 @@ a, a:link, a:visited, a:active {
     gap: 1%;
     background-color: #222;
     padding: 1%;
+    position: relative;
+}
+
+.daysFilter {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0;
+    padding-top: 1%;
+    border-top: 1px solid #444;
+}
+
+.form-check {
+    margin: auto !important;
 }
 
 .filterForm *:nth-child(n+3) {
@@ -303,4 +317,16 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
 
 .fc-scrollgrid-section-body {
     background-color: #444;
+}
+
+.highlighted-row {
+    color: #111 !important;
+}
+
+.fullWidthTable tr.highlighted-row:nth-child(2n) {
+    background-color: #77D !important;
+}
+
+.fullWidthTable tr.highlighted-row:nth-child(2n+1) {
+    background-color: #99D !important;
 }

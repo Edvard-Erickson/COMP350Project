@@ -1,3 +1,5 @@
+/* handles the view courses page, where the user can see courses they have on their schedule currently. They can also
+ remove these courses from their schedule */
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import cookies from 'react-cookies'
@@ -47,6 +49,22 @@ const ViewCourses = () => {
         fetchCourses();
     }
 
+    const toggleRowHighlight = () => {
+        let ids = [];
+        for (let element of document.querySelectorAll('.check:checked')) {
+            ids.push(element.id);
+        }
+        for (let element of document.querySelectorAll('tr')) {
+            console.log(ids);
+            console.log(element.id);
+            if (ids.includes(element.id)) {
+                element.className = 'highlighted-row';
+            } else {
+                element.className = '';
+            }
+        }
+    };
+
     return (
         <div>
             <h2>Current Courses</h2>
@@ -64,8 +82,8 @@ const ViewCourses = () => {
                                 </thead>
                                 <tbody>
                                     {courses.map((course) => (
-                                        <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
+                                        <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                             <td>{course.department}{course.courseCode}</td>
                                             <td>{course.name}</td>
                                             <td>{course.section}</td>
