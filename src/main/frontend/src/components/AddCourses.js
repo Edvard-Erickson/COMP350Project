@@ -55,6 +55,7 @@ export const AddCourses = () => {
         var eTime = '23:59:59';
         var days = ['M', 'T', 'W', 'R', 'F'];
         if (selectedDays.length > 0) {
+            console.log(selectedDays);
             days = selectedDays;
         }
         if (convertToMilitaryTime(startTime) != null) {
@@ -67,6 +68,7 @@ export const AddCourses = () => {
         const query = searchQuery ? `/${searchQuery}` : '';
         const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&days=${days.join(',')}&times=${sTime}-${eTime}`;
         setFilteredResults([]);
+        setCurrentPage(1);
 
         fetch(url)
             .then(response => response.json())
@@ -106,6 +108,16 @@ export const AddCourses = () => {
         const existingCourses = cookies.load('selectedCourses') || [];
         selectedCourses = selectedCourses.filter(course => !existingCourses.includes(course));
         const allCourses = existingCourses.concat(selectedCourses);
+
+        if (existingCourses.length >= 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
+
+        if (allCourses.length > 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
 
         for (let element of Array.from(document.querySelectorAll('.check:checked'))) {
             element.checked = false;
@@ -158,6 +170,22 @@ export const AddCourses = () => {
     }
 
     const paginatedResults = paginate(filteredResults, currentPage, itemsPerPage);
+
+    const toggleRowHighlight = () => {
+        let ids = [];
+        for (let element of document.querySelectorAll('.check:checked')) {
+            ids.push(element.id);
+        }
+        for (let element of document.querySelectorAll('tr')) {
+            console.log(ids);
+            console.log(element.id);
+            if (ids.includes(element.id)) {
+                element.className = 'highlighted-row';
+            } else {
+                element.className = '';
+            }
+        }
+    };
 
     return (
             <div>
@@ -294,8 +322,8 @@ export const AddCourses = () => {
                     </thead>
                     <tbody>
                         {paginatedResults.map((course) => (
-                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
+                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                 <td>{course.department}{course.courseCode}</td>
                                 <td>{course.name}</td>
                                 <td>{course.section}</td>

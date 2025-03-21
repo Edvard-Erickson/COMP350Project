@@ -318,3 +318,8 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
 .fc-scrollgrid-section-body {
     background-color: #444;
 }
+
+.highlighted-row {
+    background-color: #88C !important;
+    color: #111 !important;
+}
