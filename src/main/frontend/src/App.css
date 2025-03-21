@@ -201,6 +201,20 @@ a, a:link, a:visited, a:active {
     gap: 1%;
     background-color: #222;
     padding: 1%;
+    position: relative;
+}
+
+.daysFilter {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0;
+    padding-top: 1%;
+    border-top: 1px solid #444;
+}
+
+.form-check {
+    margin: auto !important;
 }
 
 .filterForm *:nth-child(n+3) {

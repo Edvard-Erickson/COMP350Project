@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import cookies from 'react-cookies';
@@ -97,7 +96,7 @@ const Generate = () => {
                         endRecur: '2027-12-31'
                     }))
                 )}
-                eventColor='#444'
+                eventColor='#333'
                 slotMinTime='06:00:00'
                 slotMaxTime='22:00:00'
             />

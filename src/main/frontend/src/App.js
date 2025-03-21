@@ -6,12 +6,10 @@ import { AddCourses } from './components/AddCourses.js'
 import ViewCourses from './components/ViewCourses.js'
 import Schedule from './components/Schedule.js'
 import Generate from './components/Generate.js'
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
-import Button from "react-bootstrap/Button"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Container from "react-bootstrap/Container"
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {

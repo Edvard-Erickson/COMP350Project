@@ -1,7 +1,7 @@
 // This component is responsible for displaying the search bar and the list of courses that can be added to the schedule.
 // Page feature added by AI.
 import { useEffect, useState } from 'react';
-import { Form, FormControl, Button, Modal } from 'react-bootstrap';
+import { Form, FormControl, Button } from 'react-bootstrap';
 import cookies from 'react-cookies';
 
 export const sortDays = (days) => {
@@ -42,16 +42,21 @@ export const AddCourses = () => {
     const [semester, setSemester] = useState('2025_Spring');
     const [currentPage, setCurrentPage] = useState(1);
     const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
+    const [selectedDays, setSelectedDays] = useState([]);
     const itemsPerPage = 20;
     var counter = 0;
 
     useEffect(() => {
         updateResults();
-    }, [selectedDepartment, professor, startTime, endTime, searchQuery]);
+    }, [selectedDepartment, professor, startTime, endTime, searchQuery, selectedDays]);
 
     const updateResults = () => {
         var sTime = '00:00:00';
         var eTime = '23:59:59';
+        var days = ['M', 'T', 'W', 'R', 'F'];
+        if (selectedDays.length > 0) {
+            days = selectedDays;
+        }
         if (convertToMilitaryTime(startTime) != null) {
             sTime = convertToMilitaryTime(startTime);
         }
@@ -60,7 +65,7 @@ export const AddCourses = () => {
         }
 
         const query = searchQuery ? `/${searchQuery}` : '';
-        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&times=${sTime}-${eTime}`;
+        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&days=${days.join(',')}&times=${sTime}-${eTime}`;
         setFilteredResults([]);
 
         fetch(url)
@@ -86,6 +91,14 @@ export const AddCourses = () => {
             hours = 0;
         }
         return `${hours.toString().padStart(2, '0')}:${minutes}:00`;
+    };
+
+    const handleDayChange = (day) => {
+        setSelectedDays((prevDays) =>
+            prevDays.includes(day)
+                ? prevDays.filter((d) => d !== day)
+                : [...prevDays, day]
+        );
     };
 
     const addCourse = () => {
@@ -235,7 +248,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes Before:</Form.Label>
+                            <Form.Label>Occurs After: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -245,7 +258,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes After:</Form.Label>
+                            <Form.Label>Occurs Before: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -253,6 +266,17 @@ export const AddCourses = () => {
                                 onChange={(e) => setEndTime(e.target.value)}
                                 isInvalid={!validateTime(endTime)}
                             />
+                        </Form.Group>
+                        <Form.Group className="daysFilter">
+                            {['M', 'T', 'W', 'R', 'F'].map((day) => (
+                                <Form.Check
+                                    key={day}
+                                    type="checkbox"
+                                    label={day}
+                                    checked={selectedDays.includes(day)}
+                                    onChange={() => handleDayChange(day)}
+                                />
+                            ))}
                         </Form.Group>
                     </Form>
                 )}
