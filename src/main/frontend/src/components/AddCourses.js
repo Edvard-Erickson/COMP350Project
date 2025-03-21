@@ -121,6 +121,7 @@ export const AddCourses = () => {
 
         for (let element of Array.from(document.querySelectorAll('.check:checked'))) {
             element.checked = false;
+            toggleRowHighlight();
         }
 
         // Extract course IDs (e.g., "COMP141") from the selected courses

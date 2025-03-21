@@ -120,7 +120,7 @@ function getAllPrograms() {
             { name: "Chemistry Secondary Education", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/Chemistry_SecEduc_2028.pdf"},
             { name: "Biochemistry with Health concentration", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/Biochemistry_Health_2028.pdf"},
             { name: "Communication Arts", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/CommunicationArts_2028.pdf"},
-            { name: "Design &amp; Innovation", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DesignandInnovation_2028.pdf"},
+            { name: "Design & Innovation", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DesignandInnovation_2028.pdf"},
             { name: "Computer Science (B.S.)", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/ComputerScience_BS_%202028.pdf"},
             { name: "Computer Programming", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/ComputerProgramming_2028.pdf"},
             { name: "Data Science", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DataScience_2028.pdf"},
