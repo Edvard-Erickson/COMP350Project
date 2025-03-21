@@ -48,6 +48,20 @@ public class AutoScheduler {
         return SchedulePossibilties;
     }
 
+    public ArrayList<Schedule> getTopTenSchedules() {
+        // Sort the SchedulePossibilties list based on the number of courses in each schedule
+        SchedulePossibilties.sort((s1, s2) -> Integer.compare(s2.getSchedule().size(), s1.getSchedule().size()));
+
+        // Create a new list to store the top ten schedules
+        ArrayList<Schedule> topTenSchedules = new ArrayList<>();
+
+        // Add the top ten schedules to the new list
+        for (int i = 0; i < Math.min(10, SchedulePossibilties.size()); i++) {
+            topTenSchedules.add(SchedulePossibilties.get(i));
+        }
+
+        return topTenSchedules;
+    }
     public void generatePossibleSchedules() {
         Schedule initialSchedule = new Schedule();
         backTrackGenerate(initialSchedule, 0); // get all possible schedules
