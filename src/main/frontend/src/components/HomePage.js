@@ -11,14 +11,14 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 const HomePage = () => {
     return (
         <div className="mainContainer">
-            <h2 id='homePageGreeting'>Hello User!</h2>
+            <h2 id='homePageGreeting'>GCC Schedule Helper</h2>
             <Container id='homeButtons'>
                 <Col>
-                    <Row><Link to='/generate'>Generate Schedules</Link></Row>
-                    <Row><Link to='/schedule'>View Schedule</Link></Row>
+                    <Row><Link to='/generate' className="button main">Generate Schedules</Link></Row>
+                    <Row><Link to='/schedule' className="button main">View Schedule</Link></Row>
                     <Row>
                         <Dropdown className='custom-dropdown' drop='end'>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <Dropdown.Toggle variant="success" id="dropdown-basic" className="button">
                                 Course Guides
                             </Dropdown.Toggle>
 
@@ -27,7 +27,7 @@ const HomePage = () => {
                                     const [name, value] = cookie.split('=');
                                     if (name === 'programs') {
                                         return JSON.parse(decodeURIComponent(value)).map((program, index) => (
-                                            <Dropdown.Item key={index} href={program.href} className="custom-dropdown-item">
+                                            <Dropdown.Item key={index} href={program.href} className="custom-dropdown-item button">
                                                 {program.name}
                                             </Dropdown.Item>
                                         ));
@@ -37,8 +37,8 @@ const HomePage = () => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </Row>
-                    <Row><Link to='/viewCourses'>View Courses</Link></Row>
-                    <Row><Link to='/addCourses'>Add Courses</Link></Row>
+                    <Row><Link to='/viewCourses' className="button main">View Courses</Link></Row>
+                    <Row><Link to='/addCourses' className="button main">Add Courses</Link></Row>
                 </Col>
             </Container>
         </div>

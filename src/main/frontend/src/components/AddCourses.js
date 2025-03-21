@@ -1,3 +1,5 @@
+// This component is responsible for displaying the search bar and the list of courses that can be added to the schedule.
+// Page feature added by AI.
 import { useEffect, useState } from 'react';
 import { Form, FormControl, Button, Modal } from 'react-bootstrap';
 import cookies from 'react-cookies';
@@ -20,6 +22,7 @@ export const groupTimes = (times) => {
     for (const [day, time] of Object.entries(times)) {
         const timeKey = `${convertToNormalTime(time[0])} - ${convertToNormalTime(time[1])}`;
         if (!grouped[timeKey]) {
+            grouped[timeKey] = [];
             grouped[timeKey] = [];
         }
         grouped[timeKey].push(day);
@@ -69,6 +72,7 @@ export const AddCourses = () => {
             .catch(error => console.error('Error fetching data:', error));
     }
 
+    // generated with AI
     const convertToMilitaryTime = (time) => {
         const timePattern = /^(1[0-2]|0?[1-9]):([0-5][0-9])\s?(AM|PM)$/i;
         const match = time.match(timePattern);
@@ -89,6 +93,20 @@ export const AddCourses = () => {
         const existingCourses = cookies.load('selectedCourses') || [];
         selectedCourses = selectedCourses.filter(course => !existingCourses.includes(course));
         const allCourses = existingCourses.concat(selectedCourses);
+
+        for (let element of Array.from(document.querySelectorAll('.check:checked'))) {
+            element.checked = false;
+        }
+
+        // Extract course IDs (e.g., "COMP141") from the selected courses
+        const courseIds = allCourses.map(course => course.match(/^[A-Z]+[0-9]+/)[0]);
+
+        // Check for duplicate course IDs
+        const uniqueCourseIds = new Set(courseIds);
+        if (uniqueCourseIds.size !== courseIds.length) {
+            alert("Cannot add same class twice");
+            return;
+        }
 
         if (selectedCourses.length === 0) {
             alert('No courses selected or already added');
@@ -138,7 +156,7 @@ export const AddCourses = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className='searchBar'
                     />
-                    <Button className='filterButton' onClick={() => setShowFilterForm(!showFilterForm)}>
+                    <Button className='filterButton button' onClick={() => setShowFilterForm(!showFilterForm)}>
                         Filters
                     </Button>
                 </Form>
@@ -269,11 +287,11 @@ export const AddCourses = () => {
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
+                    <Button className="button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
                     <span>Page {currentPage}</span>
-                    <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage * itemsPerPage >= filteredResults.length}>Next</Button>
+                    <Button className="button" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage * itemsPerPage >= filteredResults.length}>Next</Button>
                 </div>
-                <Button className='addButton' variant="primary" onClick={addCourse}>Add Courses</Button>
+                <Button className='addButton button' variant="primary" onClick={addCourse}>Add Courses</Button>
             </div>
         );
 }

@@ -87,8 +87,8 @@ const ViewCourses = () => {
                                     ))}
                                 </tbody>
                             </table>
-            <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton">Remove Selected Courses</Button>
-            <Link to="/addCourses" className="viewCourseButton linkButton">Go to Add Courses</Link>
+            <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton button">Remove Selected Courses</Button>
+            <Link to="/addCourses" className="viewCourseButton linkButton button">Go to Add Courses</Link>
         </div>
     )
 }
