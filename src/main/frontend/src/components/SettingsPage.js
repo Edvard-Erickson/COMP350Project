@@ -1,3 +1,4 @@
+// handles the settings page, which for now handles setting a list of majors.
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies';
@@ -73,7 +74,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Add Program</button>
+                <button type="submit" className="button">Add Program</button>
             </form>
             <p>REMOVE A PROGRAM:</p>
             <form id="settingsForm" onSubmit={removeProgram}>
@@ -85,7 +86,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Remove Program</button>
+                <button type="submit" className="button">Remove Program</button>
             </form>
         </div>
     )

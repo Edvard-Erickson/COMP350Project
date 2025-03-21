@@ -1,5 +1,7 @@
+// This component is responsible for displaying the search bar and the list of courses that can be added to the schedule.
+// Page feature added by AI.
 import { useEffect, useState } from 'react';
-import { Form, FormControl, Button, Modal } from 'react-bootstrap';
+import { Form, FormControl, Button } from 'react-bootstrap';
 import cookies from 'react-cookies';
 
 export const sortDays = (days) => {
@@ -21,6 +23,7 @@ export const groupTimes = (times) => {
         const timeKey = `${convertToNormalTime(time[0])} - ${convertToNormalTime(time[1])}`;
         if (!grouped[timeKey]) {
             grouped[timeKey] = [];
+            grouped[timeKey] = [];
         }
         grouped[timeKey].push(day);
     }
@@ -39,16 +42,22 @@ export const AddCourses = () => {
     const [semester, setSemester] = useState('2025_Spring');
     const [currentPage, setCurrentPage] = useState(1);
     const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
+    const [selectedDays, setSelectedDays] = useState([]);
     const itemsPerPage = 20;
     var counter = 0;
 
     useEffect(() => {
         updateResults();
-    }, [selectedDepartment, professor, startTime, endTime, searchQuery]);
+    }, [selectedDepartment, professor, startTime, endTime, searchQuery, selectedDays]);
 
     const updateResults = () => {
         var sTime = '00:00:00';
         var eTime = '23:59:59';
+        var days = ['M', 'T', 'W', 'R', 'F'];
+        if (selectedDays.length > 0) {
+            console.log(selectedDays);
+            days = selectedDays;
+        }
         if (convertToMilitaryTime(startTime) != null) {
             sTime = convertToMilitaryTime(startTime);
         }
@@ -57,8 +66,9 @@ export const AddCourses = () => {
         }
 
         const query = searchQuery ? `/${searchQuery}` : '';
-        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&times=${sTime}-${eTime}`;
+        const url = `http://localhost:8080/api/search${query}?department=${selectedDepartment}&professor=${professor}&days=${days.join(',')}&times=${sTime}-${eTime}`;
         setFilteredResults([]);
+        setCurrentPage(1);
 
         fetch(url)
             .then(response => response.json())
@@ -69,6 +79,7 @@ export const AddCourses = () => {
             .catch(error => console.error('Error fetching data:', error));
     }
 
+    // generated with AI
     const convertToMilitaryTime = (time) => {
         const timePattern = /^(1[0-2]|0?[1-9]):([0-5][0-9])\s?(AM|PM)$/i;
         const match = time.match(timePattern);
@@ -84,11 +95,43 @@ export const AddCourses = () => {
         return `${hours.toString().padStart(2, '0')}:${minutes}:00`;
     };
 
+    const handleDayChange = (day) => {
+        setSelectedDays((prevDays) =>
+            prevDays.includes(day)
+                ? prevDays.filter((d) => d !== day)
+                : [...prevDays, day]
+        );
+    };
+
     const addCourse = () => {
         var selectedCourses = Array.from(document.querySelectorAll('.check:checked')).map((checkbox) => checkbox.id);
         const existingCourses = cookies.load('selectedCourses') || [];
         selectedCourses = selectedCourses.filter(course => !existingCourses.includes(course));
         const allCourses = existingCourses.concat(selectedCourses);
+
+        if (existingCourses.length >= 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
+
+        if (allCourses.length > 10) {
+            alert('You cannot add more than 10 courses.');
+            return;
+        }
+
+        for (let element of Array.from(document.querySelectorAll('.check:checked'))) {
+            element.checked = false;
+        }
+
+        // Extract course IDs (e.g., "COMP141") from the selected courses
+        const courseIds = allCourses.map(course => course.match(/^[A-Z]+[0-9]+/)[0]);
+
+        // Check for duplicate course IDs
+        const uniqueCourseIds = new Set(courseIds);
+        if (uniqueCourseIds.size !== courseIds.length) {
+            alert("Cannot add same class twice");
+            return;
+        }
 
         if (selectedCourses.length === 0) {
             alert('No courses selected or already added');
@@ -128,6 +171,22 @@ export const AddCourses = () => {
 
     const paginatedResults = paginate(filteredResults, currentPage, itemsPerPage);
 
+    const toggleRowHighlight = () => {
+        let ids = [];
+        for (let element of document.querySelectorAll('.check:checked')) {
+            ids.push(element.id);
+        }
+        for (let element of document.querySelectorAll('tr')) {
+            console.log(ids);
+            console.log(element.id);
+            if (ids.includes(element.id)) {
+                element.className = 'highlighted-row';
+            } else {
+                element.className = '';
+            }
+        }
+    };
+
     return (
             <div>
                 <Form id="addCourseForm">
@@ -138,7 +197,7 @@ export const AddCourses = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className='searchBar'
                     />
-                    <Button className='filterButton' onClick={() => setShowFilterForm(!showFilterForm)}>
+                    <Button className='filterButton button' onClick={() => setShowFilterForm(!showFilterForm)}>
                         Filters
                     </Button>
                 </Form>
@@ -217,7 +276,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes Before:</Form.Label>
+                            <Form.Label>Occurs After: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -227,7 +286,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>No Classes After:</Form.Label>
+                            <Form.Label>Occurs Before: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -235,6 +294,17 @@ export const AddCourses = () => {
                                 onChange={(e) => setEndTime(e.target.value)}
                                 isInvalid={!validateTime(endTime)}
                             />
+                        </Form.Group>
+                        <Form.Group className="daysFilter">
+                            {['M', 'T', 'W', 'R', 'F'].map((day) => (
+                                <Form.Check
+                                    key={day}
+                                    type="checkbox"
+                                    label={day}
+                                    checked={selectedDays.includes(day)}
+                                    onChange={() => handleDayChange(day)}
+                                />
+                            ))}
                         </Form.Group>
                     </Form>
                 )}
@@ -252,8 +322,8 @@ export const AddCourses = () => {
                     </thead>
                     <tbody>
                         {paginatedResults.map((course) => (
-                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
+                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                 <td>{course.department}{course.courseCode}</td>
                                 <td>{course.name}</td>
                                 <td>{course.section}</td>
@@ -269,11 +339,11 @@ export const AddCourses = () => {
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
+                    <Button className="button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
                     <span>Page {currentPage}</span>
-                    <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage * itemsPerPage >= filteredResults.length}>Next</Button>
+                    <Button className="button" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage * itemsPerPage >= filteredResults.length}>Next</Button>
                 </div>
-                <Button className='addButton' variant="primary" onClick={addCourse}>Add Courses</Button>
+                <Button className='addButton button' variant="primary" onClick={addCourse}>Add Courses</Button>
             </div>
         );
 }

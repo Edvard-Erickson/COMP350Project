@@ -8,7 +8,7 @@ public class DepartmentFilter extends Filter {
 
     public DepartmentFilter(String department) {
         super();
-        this.department = department;
+        this.department = department.toLowerCase();
     }
 
     @Override
@@ -16,7 +16,7 @@ public class DepartmentFilter extends Filter {
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         for (int i = 0; i < sectionList.size(); i++) {
-            if (sectionList.get(i).getDepartment().equals(department)) {
+            if (sectionList.get(i).getDepartment().toLowerCase().equals(department)) {
                 returnList.add(sectionList.get(i));
             }
         }

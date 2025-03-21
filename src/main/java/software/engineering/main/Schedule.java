@@ -1,6 +1,17 @@
 package software.engineering.main;
 
+import com.google.gson.Gson;
+
+import java.io.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Schedule {
     private ArrayList<Section> classes;
@@ -72,5 +83,77 @@ public class Schedule {
             }
         }
         return false;
+    }
+
+    public File saveToSchedule(String fileName) {
+        File file = new File("src/main/resources/" + fileName + ".json");
+        try {
+            Gson gson = new Gson().newBuilder().create();
+            String json = gson.toJson(this);
+
+            FileWriter writer = new FileWriter(file);
+            writer.write(json);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    //load a schedule from resources with the filepath, returns a Schedule object
+    protected static Schedule loadSchedule(String filePath) {
+        Schedule schedule = new Schedule();
+        JSONParser parser = new JSONParser();
+
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(filePath))) {
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+
+            JSONArray classesArray = (JSONArray) jsonObject.get("classes");
+            for (Object classObj : classesArray) {
+                JSONObject classJson = (JSONObject) classObj;
+
+                String department = (String) classJson.get("department");
+                String courseName = (String) classJson.get("name");
+                long courseCode = (long) classJson.get("courseCode");
+                char section = ((String) classJson.get("section")).charAt(0);
+                String professor = (String) classJson.get("professor");
+                String semester = (String) classJson.get("semester");
+
+                HashMap<String, String[]> times = new HashMap<>();
+                JSONObject timesJson = (JSONObject) classJson.get("times");
+                for (Object day : timesJson.keySet()) {
+                    JSONArray timeArray = (JSONArray) timesJson.get(day);
+                    String startTime = (String) timeArray.get(0);
+                    String endTime = (String) timeArray.get(1);
+                    times.put((String) day, new String[]{startTime, endTime});
+                }
+
+                Section sec = new Section(department, (int) courseCode, section, courseName, professor, semester, times);
+                schedule.addSection(sec);
+            }
+
+            JSONArray blocksArray = (JSONArray) jsonObject.get("blocks");
+            for (Object blockObj : blocksArray) {
+                JSONObject blockJson = (JSONObject) blockObj;
+
+                HashMap<String, String[]> times = new HashMap<>();
+                JSONObject timesJson = (JSONObject) blockJson.get("times");
+                for (Object day : timesJson.keySet()) {
+                    JSONArray timeArray = (JSONArray) timesJson.get(day);
+                    String startTime = (String) timeArray.get(0);
+                    String endTime = (String) timeArray.get(1);
+                    times.put((String) day, new String[]{startTime, endTime});
+                }
+
+                Timeblock timeblock = new Timeblock(times);
+                schedule.addTimeblock(timeblock);
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return schedule;
     }
 }

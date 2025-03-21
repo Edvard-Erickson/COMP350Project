@@ -16,15 +16,16 @@ public class Search {
 
     public ArrayList<Section> courseSearch(String text) {
         ArrayList<Section> returnList = new ArrayList<Section>();
+        String textInLower = text.toLowerCase();
 
         for (int i = 0; i < fullList.size(); i++) {
             Section currentSection = fullList.get(i);
 
             if (
-                    currentSection.getName().contains(text) ||
+                    currentSection.getName().toLowerCase().contains(textInLower) ||
                             (
-                                    text.contains(Integer.toString(currentSection.getCourseCode())) &&
-                                            text.contains(currentSection.getDepartment())
+                                    textInLower.contains(Integer.toString(currentSection.getCourseCode())) &&
+                                            textInLower.contains(currentSection.getDepartment().toLowerCase())
                             )
             ) {
                 returnList.add(fullList.get(i));
