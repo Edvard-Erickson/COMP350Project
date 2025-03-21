@@ -276,7 +276,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>Occurs After: </Form.Label>
+                            <Form.Label>No Classes Before: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
@@ -286,7 +286,7 @@ export const AddCourses = () => {
                             />
                         </Form.Group>
                         <Form.Group className="filterGroup">
-                            <Form.Label>Occurs Before: </Form.Label>
+                            <Form.Label>No Classes After: </Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="HH:MM (AM/PM)"
