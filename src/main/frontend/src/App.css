@@ -320,6 +320,13 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
 }
 
 .highlighted-row {
-    background-color: #88C !important;
     color: #111 !important;
+}
+
+.fullWidthTable tr.highlighted-row:nth-child(2n) {
+    background-color: #77D !important;
+}
+
+.fullWidthTable tr.highlighted-row:nth-child(2n+1) {
+    background-color: #99D !important;
 }
