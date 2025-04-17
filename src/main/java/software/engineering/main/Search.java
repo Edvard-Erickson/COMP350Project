@@ -23,10 +23,11 @@ public class Search {
 
             if (
                     currentSection.getName().toLowerCase().contains(textInLower) ||
-                            (
-                                    textInLower.contains(Integer.toString(currentSection.getCourseCode())) &&
-                                            textInLower.contains(currentSection.getDepartment().toLowerCase())
-                            )
+                            currentSection.getProfessor().toLowerCase().contains(textInLower) ||
+                            textInLower.contains(Integer.toString(currentSection.getCourseCode())) ||
+                            textInLower.contains(currentSection.getProfessor()) ||
+                            textInLower.contains(currentSection.getDepartment().toLowerCase())
+
             ) {
                 returnList.add(fullList.get(i));
             }
