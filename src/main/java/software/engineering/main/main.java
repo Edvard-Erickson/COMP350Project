@@ -129,5 +129,15 @@ public class main {
         System.out.println();
         System.out.println(s.courseSearch("AND OR AND OR"));
         System.out.println();
+        System.out.println(s.courseSearch("NOT OR"));
+        System.out.println();
+        System.out.println(s.courseSearch("OR NOT"));
+        System.out.println();
+        System.out.println(s.courseSearch("apples NOT oranges"));
+        System.out.println();
+        System.out.println(s.courseSearch("NOT apples"));
+        System.out.println();
+        System.out.println(s.courseSearch("\"aSD aSd"));
+        System.out.println();
     }
 }

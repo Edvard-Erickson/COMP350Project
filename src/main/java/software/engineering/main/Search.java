@@ -93,6 +93,14 @@ public class Search {
                 else if (searchArguments.get(j).equals("OR")) {
                     i = j;
                     break;
+                } else if (searchArguments.get(j).equals("NOT")) {
+                    if (j + 1 < searchArguments.size()) {
+                        if (!(searchArguments.get(j+1).equals("OR") || searchArguments.get(j+1).equals("NOT"))) {
+                            String argumentToAdd = searchArguments.get(j + 1);
+                            toAddNotFSA.add(argumentToAdd);
+                            j++;
+                        }
+                    }
                 } else {
                     String argumentToAdd = searchArguments.get(j);
                     toAddFSA.add(argumentToAdd);
@@ -108,9 +116,13 @@ public class Search {
         // Print out the search arguments for debugging
         for (int i = 0; i < finalSearchArgumentSections.size(); i++) {
             ArrayList<String> currentSection = finalSearchArgumentSections.get(i);
+            ArrayList<String> currentSectionN = notFinalSearchArgumentSections.get(i);
 
             for (int j = 0; j < currentSection.size(); j++) {
                 System.out.println("argument[" + i + "]\t currentSection[" + j + "] = " + currentSection.get(j));
+            }
+            for (int j = 0; j < currentSectionN.size(); j++) {
+                System.out.println("argument[" + i + "]\t notCurrentSection[" + j + "] = " + currentSectionN.get(j));
             }
             System.out.println("--------------------");
         }
