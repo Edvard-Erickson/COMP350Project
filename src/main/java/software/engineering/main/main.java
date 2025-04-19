@@ -25,7 +25,7 @@ public class main {
         atimes.put("M", new String[]{"10:00:00", "10:50:00"});
         atimes.put("W", new String[]{"10:00:00", "10:50:00"});
         atimes.put("F", new String[]{"10:00:00", "10:50:00"});
-        Section a = new Section("COMP", 101, 'A', "Intro to CS", "John", "", atimes);
+        Section a = new Section("COMP", 101, 'A', "Intro to COMPUTER SCIENCE", "John", "", atimes);
 
         HashMap<String, String[]> btimes = new HashMap<>();
         btimes.put("M", new String[]{"10:00:00", "10:50:00"});
@@ -102,42 +102,24 @@ public class main {
         System.out.println();
 
         System.out.println(s.courseSearch("\"COMP\" "));
-        System.out.println();
         System.out.println(s.courseSearch("math"));
-        System.out.println();
         System.out.println(s.courseSearch("\"COMP\" math"));
-        System.out.println();
-        System.out.println(s.courseSearch("math \"COMP\""));
-        System.out.println();
+        System.out.println(s.courseSearch("math OR \"COMP\""));
         System.out.println(s.courseSearch("\"COMPUTER SCIENCE\""));
-        System.out.println();
         System.out.println(s.courseSearch("COMPUTER SCIENCE "));
-        System.out.println();
         System.out.println(s.courseSearch("    "));
-        System.out.println();
         System.out.println(s.courseSearch("coMpUter AND scIEnce"));
-        System.out.println();
         System.out.println(s.courseSearch("AND"));
-        System.out.println();
         System.out.println(s.courseSearch("SAND"));
-        System.out.println();
         System.out.println(s.courseSearch("three word argument"));
-        System.out.println();
         System.out.println(s.courseSearch("computer OR science"));
-        System.out.println();
         System.out.println(s.courseSearch("three words OR argument"));
-        System.out.println();
         System.out.println(s.courseSearch("AND OR AND OR"));
-        System.out.println();
         System.out.println(s.courseSearch("NOT OR"));
-        System.out.println();
         System.out.println(s.courseSearch("OR NOT"));
-        System.out.println();
-        System.out.println(s.courseSearch("apples NOT oranges"));
-        System.out.println();
-        System.out.println(s.courseSearch("NOT apples"));
-        System.out.println();
+        System.out.println(s.courseSearch("math NOT equations"));
+        System.out.println(s.courseSearch("NOT math"));
         System.out.println(s.courseSearch("\"aSD aSd"));
-        System.out.println();
+        System.out.println(s.courseSearch("\"\"\""));
     }
 }

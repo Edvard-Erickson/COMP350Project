@@ -42,7 +42,7 @@ public class Search {
                 shoudSetii = true;
             } else if (c == '\"') {
                 if (!inQuotes) {
-                    ii = ci + 1;
+                    ii = ci;
                     inQuotes = true;
                     shoudSetii = false;
                 } else {
@@ -68,8 +68,6 @@ public class Search {
                 searchArguments.add(toAdd);
             }
         }
-
-        // TODO: Implement boolean operators
 
         // remove AND operator (it is default behavior)
         for (int i = searchArguments.size() - 1; i >= 0; i--) {
@@ -114,7 +112,7 @@ public class Search {
         }
 
         // Print out the search arguments for debugging
-        for (int i = 0; i < finalSearchArgumentSections.size(); i++) {
+        /*for (int i = 0; i < finalSearchArgumentSections.size(); i++) {
             ArrayList<String> currentSection = finalSearchArgumentSections.get(i);
             ArrayList<String> currentSectionN = notFinalSearchArgumentSections.get(i);
 
@@ -125,22 +123,35 @@ public class Search {
                 System.out.println("argument[" + i + "]\t notCurrentSection[" + j + "] = " + currentSectionN.get(j));
             }
             System.out.println("--------------------");
-        }
+        }*/
 
-        String textInLower = text.toLowerCase();
+        // compare arguments to sections and add sections to returnList
+        for (int i = 0; i < finalSearchArgumentSections.size(); i++) {
+            ArrayList<String> currentArgumentList = finalSearchArgumentSections.get(i);
+            ArrayList<String> notCurrentArgumentList = notFinalSearchArgumentSections.get(i);
 
-        for (int i = 0; i < fullList.size(); i++) {
-            Section currentSection = fullList.get(i);
+            for (int j = 0; j < fullList.size(); j++) {
+                Section currentSection = fullList.get(j);
 
-            if (
-                    currentSection.getName().toLowerCase().contains(textInLower) ||
-                            currentSection.getProfessor().toLowerCase().contains(textInLower) ||
-                            textInLower.contains(Integer.toString(currentSection.getCourseCode())) ||
-                            textInLower.contains(currentSection.getProfessor()) ||
-                            textInLower.contains(currentSection.getDepartment().toLowerCase())
-
-            ) {
-                returnList.add(fullList.get(i));
+                int counter = 0;
+                for (int k = 0; k < currentArgumentList.size(); k++) {
+                    if (currentSection.containsText(currentArgumentList.get(k))) {
+                        counter++;
+                    }
+                }
+                for (int k = 0; k < notCurrentArgumentList.size(); k++) {
+                    if (!currentSection.containsText(notCurrentArgumentList.get(k))) {
+                        counter++;
+                    }
+                }
+                // add course to returnList if it is not already there
+                if (counter == currentArgumentList.size() + notCurrentArgumentList.size()) {
+                    if (i == 0) { // should cause no errors; it implemented to improve speed
+                        returnList.add(currentSection);
+                    } else if (!returnList.contains(currentSection)) { // this could cause a slowdown in search speed
+                        returnList.add(currentSection);
+                    }
+                }
             }
         }
 
