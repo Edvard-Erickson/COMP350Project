@@ -123,5 +123,11 @@ public class main {
         System.out.println();
         System.out.println(s.courseSearch("three word argument"));
         System.out.println();
+        System.out.println(s.courseSearch("computer OR science"));
+        System.out.println();
+        System.out.println(s.courseSearch("three words OR argument"));
+        System.out.println();
+        System.out.println(s.courseSearch("AND OR AND OR"));
+        System.out.println();
     }
 }

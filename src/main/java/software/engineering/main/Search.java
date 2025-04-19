@@ -86,7 +86,11 @@ public class Search {
 
 
             for (int j = i; j < searchArguments.size() + 1; j++) {
-                if (searchArguments.get(i).equals("OR") || j == searchArguments.size()) {
+                if (j == searchArguments.size()) {
+                    i = j;
+                    break;
+                }
+                else if (searchArguments.get(j).equals("OR")) {
                     i = j;
                     break;
                 } else {
