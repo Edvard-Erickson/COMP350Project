@@ -98,5 +98,30 @@ public class main {
         Gson gson = new Gson();
 
         System.out.println(gson.toJson(a));
+
+        System.out.println();
+
+        System.out.println(s.courseSearch("\"COMP\" "));
+        System.out.println();
+        System.out.println(s.courseSearch("math"));
+        System.out.println();
+        System.out.println(s.courseSearch("\"COMP\" math"));
+        System.out.println();
+        System.out.println(s.courseSearch("math \"COMP\""));
+        System.out.println();
+        System.out.println(s.courseSearch("\"COMPUTER SCIENCE\""));
+        System.out.println();
+        System.out.println(s.courseSearch("COMPUTER SCIENCE "));
+        System.out.println();
+        System.out.println(s.courseSearch("    "));
+        System.out.println();
+        System.out.println(s.courseSearch("coMpUter AND scIEnce"));
+        System.out.println();
+        System.out.println(s.courseSearch("AND"));
+        System.out.println();
+        System.out.println(s.courseSearch("SAND"));
+        System.out.println();
+        System.out.println(s.courseSearch("three word argument"));
+        System.out.println();
     }
 }
