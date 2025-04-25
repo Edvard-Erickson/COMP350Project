@@ -96,7 +96,8 @@ const Schedule = () => {
             })
             .then(data => {
                 const courseIds = data.map(course => `${course.department}${course.courseCode}${course.section}${course.semester}`);
-                cookies.save('selectedCourses', courseIds, { path: '/' });
+                cookies.save('generateCourseList', courseIds);
+                cookies.save('selectedCourses', courseIds);
                 fetchScheduleData();
                 alert('Schedule loaded successfully!');
             })

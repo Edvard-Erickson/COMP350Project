@@ -21,7 +21,7 @@ const Generate = () => {
     const [noSchedules, setNoSchedules] = useState(false);
 
     useEffect(() => {
-        const selectedCourses = cookies.load('selectedCourses') || [];
+        const selectedCourses = cookies.load('generateCourseList') || [];
         if (selectedCourses.length > 0) {
             fetch(`http://localhost:8080/api/generate?courses=${selectedCourses.join(',')}`)
             .then(response => response.json())
@@ -51,7 +51,8 @@ const Generate = () => {
     const handleSetMainSchedule = () => {
         const currentSchedule = schedules[currentScheduleIndex];
         const courseIds = currentSchedule.map(course => `${course.department}${course.courseCode}${course.section}${course.semester}`);
-        cookies.save('selectedCourses', courseIds, { path: '/' });
+        cookies.save('generateCourseList', courseIds);
+        cookies.save('selectedCourses', courseIds);
         alert('Main schedule set successfully!');
     };
 

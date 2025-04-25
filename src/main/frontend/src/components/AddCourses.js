@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import cookies from 'react-cookies';
+import { Navigate } from 'react-router-dom';
 
 export const sortDays = (days) => {
     const dayOrder = ['M', 'T', 'W', 'R', 'F'];
@@ -43,6 +44,8 @@ export const AddCourses = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showTimeBlockForm, setShowTimeBlockForm] = useState(false);
     const [selectedDays, setSelectedDays] = useState([]);
+    const [alreadySelected, setAlreadySelected] = useState([]);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
     const itemsPerPage = 20;
     var counter = 0;
 
@@ -73,8 +76,16 @@ export const AddCourses = () => {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                const selectedCourses = cookies.load('selectedCourses') || [];
+                const filteredData = data.filter(course =>
+                    !selectedCourses.includes(`${course.department}${course.courseCode}${course.section}${course.semester}`)
+                );
+                const removedData = data.filter(course =>
+                    selectedCourses.includes(`${course.department}${course.courseCode}${course.section}${course.semester}`)
+                );
                 setResults(data);
-                setFilteredResults(data);
+                setFilteredResults(filteredData);
+                setAlreadySelected(removedData);
             })
             .catch(error => console.error('Error fetching data:', error));
     }
@@ -142,13 +153,14 @@ export const AddCourses = () => {
         .then(response => response.json())
         .then(data => {
             if (data) {
-                if (window.confirm("Some courses conflict. You will only be able to generate schedules. ")) {
-                    cookies.save('selectedCourses', allCourses);
-                    alert('Courses added successfully');
+                if (window.confirm("Some courses conflict. Generate schedules with these courses? ")) {
+                    cookies.save('generateCourseList', allCourses);
+                    setShouldRedirect(true);
                 } else {
                     alert('Courses not added');
                 }
             } else {
+                cookies.save('generateCourseList', allCourses);
                 cookies.save('selectedCourses', allCourses);
                 alert('Courses added successfully');
             }
@@ -178,15 +190,26 @@ export const AddCourses = () => {
             ids.push(element.id);
         }
         for (let element of document.querySelectorAll('tr')) {
-            console.log(ids);
-            console.log(element.id);
-            if (ids.includes(element.id)) {
-                element.className = 'highlighted-row';
+            console.log(element.querySelectorAll('.check').length === 0);
+            if (element.querySelectorAll('.check').length > 0 && ids.includes(element.id)) {
+                element.className = 'highlighted-row pointer';
             } else {
-                element.className = '';
+                if (element.className === 'alreadySelected') {
+                    continue;
+                } else {
+                    if (element.className === 'highlighted-row pointer' || element.className === 'pointer') {
+                        element.className = 'pointer';
+                    } else {
+                        element.className = '';
+                    }
+                }
             }
         }
     };
+
+    if (shouldRedirect) {
+        return <Navigate to="/generate" replace />;
+    }
 
     return (
             <div>
@@ -322,9 +345,9 @@ export const AddCourses = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {paginatedResults.map((course) => (
-                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
+                        {alreadySelected.map((course) => (
+                            <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`} className='alreadySelected'>
+                                <td></td>
                                 <td>{course.department}{course.courseCode}</td>
                                 <td>{course.name}</td>
                                 <td>{course.section}</td>
@@ -335,6 +358,32 @@ export const AddCourses = () => {
                                     ))}
                                 </td>
                                 <td>{course.semester}</td>
+                            </tr>
+                        ))}
+                        {paginatedResults.map((course) => (
+                            <tr
+                                key={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                id={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                className="pointer"
+                                onClick={(e) => {
+                                    if (!e.target.classList.contains('check')) {
+                                        const checkbox = e.currentTarget.querySelector(`#${course.department}${course.courseCode}${course.section}${course.semester}`);
+                                        checkbox.click();
+                                    }
+                                    toggleRowHighlight();
+                                }}
+                            >
+                                    <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
+                                    <td>{course.department}{course.courseCode}</td>
+                                    <td>{course.name}</td>
+                                    <td>{course.section}</td>
+                                    <td>{course.professor}</td>
+                                    <td>
+                                        {Object.entries(groupTimes(course.times)).map(([time, days]) => (
+                                            <span key={time}> {sortDays(days).join('')}: {time} </span>
+                                        ))}
+                                    </td>
+                                    <td>{course.semester}</td>
                             </tr>
                         ))}
                     </tbody>

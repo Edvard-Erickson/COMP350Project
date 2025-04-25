@@ -330,3 +330,101 @@ table .fc-col-header .fc-col-header-cell, table colgroup {
 .fullWidthTable tr.highlighted-row:nth-child(2n+1) {
     background-color: #99D !important;
 }
+
+.alreadySelected {
+    background-color: #338833 !important;
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
+/* Chatbox CSS */
+
+#chatbox {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 35%;
+    z-index: 100;
+    background-color: #222;
+    border: 2px black solid;
+    border-radius: 10px;
+    height: 65%;
+}
+
+#chatbox-header {
+    margin: auto;
+    font-size: 1.5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    padding: 5px;
+    border-radius: 10px 10px 0 0;
+}
+
+#chatbox-messages {
+    margin: 2%;
+    width: 96%;
+    height: 70%;
+    background-color: #444;
+    overflow-y: scroll;
+}
+
+#chatbox-input {
+    margin: 2%;
+    width: 96%;
+    height: 13%;
+    font-size: 1 vw;
+    text-align: center;
+}
+
+#chatbox-input button {
+    width: 14%;
+    padding: 0 0 0 0;
+    height: 100%;
+    border-radius: 0;
+    border: 0;
+    margin: auto;
+    text-align: center;
+    background-color: #777;
+}
+
+#chatbox-input input {
+    width: 80%;
+    height: 99%;
+    padding: 3px;
+    margin-right: 4%;
+    margin-top: 1%;
+    border: 0;
+    top: 0px;
+}
+
+#chatbox-expand {
+    bottom: 98%;
+    margin: auto;
+    padding: 0px;
+    height: 10%;
+    width: 100%;
+    background-color: #111;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 0;
+    z-index: 50;
+}
+
+#chatbox-expand h2 {
+    font-size: 1.5vw;
+    margin: 0;
+    height: 100%;
+}
+
+#chatbox-content {
+    height: 100%;
+    width: 100%;
+}
+
+.collapsed {
+    top: 94% !important;
+}

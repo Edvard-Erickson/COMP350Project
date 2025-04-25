@@ -44,7 +44,8 @@ const ViewCourses = () => {
             alert('No courses selected or already added');
             return;
         }
-        cookies.save('selectedCourses', existingCourses, { path: '/' });
+        cookies.save('generateCourseList', existingCourses);
+        cookies.save('selectedCourses', existingCourses);
         alert('Selected courses removed');
         fetchCourses();
     }
@@ -58,9 +59,13 @@ const ViewCourses = () => {
             console.log(ids);
             console.log(element.id);
             if (ids.includes(element.id)) {
-                element.className = 'highlighted-row';
+                element.className = 'highlighted-row pointer';
             } else {
-                element.className = '';
+                if (element.className === 'highlighted-row pointer' || element.className === 'pointer') {
+                    element.className = 'pointer';
+                } else {
+                    element.className = '';
+                }
             }
         }
     };
@@ -82,7 +87,18 @@ const ViewCourses = () => {
                                 </thead>
                                 <tbody>
                                     {courses.map((course) => (
-                                        <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`} id={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
+                                        <tr
+                                            key={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                            id={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                            className="pointer"
+                                            onClick={(e) => {
+                                                if (!e.target.classList.contains('check')) {
+                                                    const checkbox = e.currentTarget.querySelector(`#${course.department}${course.courseCode}${course.section}${course.semester}`);
+                                                    checkbox.click();
+                                                }
+                                                toggleRowHighlight();
+                                            }}
+                                        >
                                             <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                             <td>{course.department}{course.courseCode}</td>
                                             <td>{course.name}</td>
@@ -94,13 +110,6 @@ const ViewCourses = () => {
                                                 ))}
                                             </td>
                                             <td>{course.semester}</td>
-                                        </tr>
-                                    ))}
-                                    {timeBlocks.map((timeBlock, index) => (
-                                        <tr key={`timeBlock${index}`}>
-                                            <td></td>
-                                            <td colSpan="2">{timeBlock.name}</td>
-                                            <td colSpan="2">{timeBlock.startTime} - {timeBlock.endTime}</td>
                                         </tr>
                                     ))}
                                 </tbody>

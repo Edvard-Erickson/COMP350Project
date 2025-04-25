@@ -15,7 +15,6 @@ const HomePage = () => {
             <h2 id='homePageGreeting'>GCC Schedule Helper</h2>
             <Container id='homeButtons'>
                 <Col>
-                    <Row><Link to='/generate' className="button main">Generate Schedules</Link></Row>
                     <Row><Link to='/schedule' className="button main">View Schedule</Link></Row>
                     <Row>
                         <Dropdown className='custom-dropdown' drop='end'>

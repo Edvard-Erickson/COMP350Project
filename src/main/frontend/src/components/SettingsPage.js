@@ -42,6 +42,16 @@ const SettingsPage = () => {
          setSelectValue('');
          cookies.save('programs', updatedPrograms, { path: '/' });
          console.log('Programs saved in cookies:', cookies.load('programs'));
+         var urls = updatedPrograms.map(program => program.href).join(',');
+         fetch(`http://localhost:8000/api/setMajors?majors=${urls}&names=${updatedPrograms.map(program => program.name).join(',')}`)
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+         })
+         .catch(error => {
+             console.log("error: ", error);
+          });
     }
 
     const removeProgram = (event) => {
@@ -56,6 +66,16 @@ const SettingsPage = () => {
         setSelectRemoveValue('');
         cookies.save('programs', updatedPrograms, { path: '/' });
         console.log('Programs saved in cookies:', cookies.load('programs'));
+        var urls = updatedPrograms.map(program => program.href).join(',');
+        fetch(`http://localhost:8000/api/setMajors?majors=${urls}&names=${updatedPrograms.map(program => program.name).join(',')}`)
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+         })
+         .catch(error => {
+            console.log("error: ", error);
+         });
     }
 
     var options = getAllPrograms();
