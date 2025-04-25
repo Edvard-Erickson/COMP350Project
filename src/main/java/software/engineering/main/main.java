@@ -121,5 +121,7 @@ public class main {
         System.out.println(s.courseSearch("NOT math"));
         System.out.println(s.courseSearch("\"aSD aSd"));
         System.out.println(s.courseSearch("\"\"\""));
+        System.out.println(s.courseSearch(""));
+        System.out.println(s.courseSearch("calculus OR \"aSD aSd"));
     }
 }
