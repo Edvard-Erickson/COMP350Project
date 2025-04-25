@@ -16,6 +16,12 @@ public class Search {
 
     public ArrayList<Section> courseSearch(String text) {
 
+        // handle empty search
+        if (text.equals("")) {
+            lastSearch = fullList;
+            return fullList;
+        }
+
         ArrayList<Section> returnList = new ArrayList<Section>();
 
         ArrayList<String> searchArguments = new ArrayList<String>();
@@ -155,6 +161,7 @@ public class Search {
             }
         }
 
+        lastSearch = returnList;
         return returnList;
     }
 
