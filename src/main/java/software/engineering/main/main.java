@@ -123,5 +123,8 @@ public class main {
         System.out.println(s.courseSearch("\"\"\""));
         System.out.println(s.courseSearch(""));
         System.out.println(s.courseSearch("calculus OR \"aSD aSd"));
+        System.out.println(s.courseSearch("\""));
+        System.out.println(s.courseSearch("c"));
+        System.out.println(s.courseSearch("ca"));
     }
 }
