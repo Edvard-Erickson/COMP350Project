@@ -15,17 +15,34 @@ import { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Collapse from 'react-bootstrap/Collapse'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import cookies from 'react-cookies'
 
 export default function App() {
     const [collapse, setCollapse] = useState(true);
     const [question, setQuestion] = useState('');
     const [response, setResponse] = useState('');
+    const [coursesRemembered, setCoursesRemembered] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setResponse('loading...');
 
-        fetch('http://localhost:8000/api/ask', {
+        if (coursesRemembered != cookies.load('selectedCourses')) {
+            var urls = cookies.load('programs').map(program => program.href).join(',');
+            var names = cookies.load('programs').map(program => program.name).join(',');
+            await fetch(`http://localhost:8000/api/setMajors?majors=${urls}&names=${names}`)
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error('Network response was not ok');
+                 }
+             })
+             .catch(error => {
+                 console.log("error: ", error);
+              });
+            setCoursesRemembered(cookies.load('selectedCourses'));
+        }
+
+        await fetch('http://localhost:8000/api/ask', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +58,9 @@ export default function App() {
         .catch(error => {
             setResponse('Error: ' + error.message);
         });
-    };
+
+        setQuestion('');
+    }
 
   return (
     <Router>

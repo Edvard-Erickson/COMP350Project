@@ -270,7 +270,7 @@ a, a:link, a:visited, a:active {
 .addButton {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
 }
 
 .createTimeBlock {
@@ -283,7 +283,7 @@ a, a:link, a:visited, a:active {
 
 .viewCourseButton {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
 }
 
 .viewCourseButton:hover {
@@ -296,6 +296,7 @@ a, a:link, a:visited, a:active {
 
 .linkButton {
     right: 20px;
+    padding: 1.3% !important;
     border-radius: 7px;
 }
 

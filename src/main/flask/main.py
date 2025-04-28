@@ -35,11 +35,14 @@ def home():
 def setMajors():
      majors = request.args.get('majors')
      names = request.args.get('names')
-     print(majors)
-     if majors is not None:
-        majors = majors.split(",")
-        initialize_pdf_system_from_urls(majors)
-        print("initialized")
+     urls = []
+     if majors != "":
+         urls = majors.split(",")
+     else:
+         urls = ["https://www.gcc.edu/Portals/0/2024-25-Catalog.pdf"]
+     print(urls)
+     initialize_pdf_system_from_urls(urls)
+     print("initialized")
      return jsonify({"message": "Majors set successfully!"}), 200
 
 class Response(Resource):
