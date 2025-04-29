@@ -49,19 +49,19 @@ public class Section extends Timeblock{
         return false;
     }
 
-    protected String getDepartment() {
+    public String getDepartment() {
         return this.department;
     }
 
-    protected int getCourseCode() {
+    public int getCourseCode() {
         return this.courseCode;
     }
 
-    protected String getCourseName() {
+    public String getCourseName() {
         return super.getName();
     }
 
-    protected String getProfessor() {
+    public String getProfessor() {
         return professor;
     }
 
