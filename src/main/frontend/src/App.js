@@ -1,3 +1,4 @@
+// general app that loads all of the components as necessary. Always features a navigation bar.
 import './App.css'
 import HomePage from './components/HomePage.js'
 import Page404 from './components/Page404.js'
@@ -10,8 +11,7 @@ import Login from './components/Login.js'
 import Register from './components/Register.js';
 
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
-import Button from "react-bootstrap/Button"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Container from "react-bootstrap/Container"
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
@@ -19,6 +19,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import { useState, useEffect } from 'react'
+import Button from 'react-bootstrap/Button'
+import Collapse from 'react-bootstrap/Collapse'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import cookies from 'react-cookies'
 
 export default function App() {
 
@@ -38,6 +42,50 @@ export default function App() {
     return <p>Loading...</p>; // optional, to avoid flash
   }
 
+    const [collapse, setCollapse] = useState(true);
+    const [question, setQuestion] = useState('');
+    const [response, setResponse] = useState('');
+    const [coursesRemembered, setCoursesRemembered] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setResponse('loading...');
+
+        if (coursesRemembered != cookies.load('selectedCourses')) {
+            var urls = cookies.load('programs').map(program => program.href).join(',');
+            var names = cookies.load('programs').map(program => program.name).join(',');
+            await fetch(`http://localhost:8000/api/setMajors?majors=${urls}&names=${names}`)
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error('Network response was not ok');
+                 }
+             })
+             .catch(error => {
+                 console.log("error: ", error);
+              });
+            setCoursesRemembered(cookies.load('selectedCourses'));
+        }
+
+        await fetch('http://localhost:8000/api/ask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                question: question
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setResponse(data.answer);
+        })
+        .catch(error => {
+            setResponse('Error: ' + error.message);
+        });
+
+        setQuestion('');
+    }
+
   return (
       <Router>
         {/* Show Navbar only if logged in */}
@@ -52,6 +100,21 @@ export default function App() {
                 </Button>
               </Nav>
             </Container>
+        </Navbar>
+        <div id="chatbox" className={collapse ? "collapsed" : ""}>
+            <div id="chatbox-expand" onClick={() => setCollapse(!collapse)}>
+                <h2>▴ AI Assistant - Powered by OpenAI</h2>
+            </div>
+            <div id="chatbox-content">
+                <div id="chatbox-messages">
+                    <p>{response}</p>
+                </div>
+                <form id="chatbox-input" onSubmit={handleSubmit}>
+                    <input type="text" placeholder="Ask a question" maxlength="150" value={question} onChange={(e) => setQuestion(e.target.value)}/>
+                    <button type="submit" className="button">Send</button>
+                </form>
+            </div>
+        </div>
           </Navbar>
         )}
 
@@ -74,7 +137,6 @@ export default function App() {
             </>
           )}
         </Routes>
-
-      </Router>
-    );
-  }
+    </Router>
+  );
+};

@@ -1,3 +1,5 @@
+/* handles the view courses page, where the user can see courses they have on their schedule currently. They can also
+ remove these courses from their schedule */
 import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import cookies from 'react-cookies'
@@ -42,10 +44,31 @@ const ViewCourses = () => {
             alert('No courses selected or already added');
             return;
         }
-        cookies.save('selectedCourses', existingCourses, { path: '/' });
+        cookies.save('generateCourseList', existingCourses);
+        cookies.save('selectedCourses', existingCourses);
         alert('Selected courses removed');
         fetchCourses();
     }
+
+    const toggleRowHighlight = () => {
+        let ids = [];
+        for (let element of document.querySelectorAll('.check:checked')) {
+            ids.push(element.id);
+        }
+        for (let element of document.querySelectorAll('tr')) {
+            console.log(ids);
+            console.log(element.id);
+            if (ids.includes(element.id)) {
+                element.className = 'highlighted-row pointer';
+            } else {
+                if (element.className === 'highlighted-row pointer' || element.className === 'pointer') {
+                    element.className = 'pointer';
+                } else {
+                    element.className = '';
+                }
+            }
+        }
+    };
 
     return (
         <div>
@@ -64,8 +87,19 @@ const ViewCourses = () => {
                                 </thead>
                                 <tbody>
                                     {courses.map((course) => (
-                                        <tr key={`${course.department}${course.courseCode}${course.section}${course.semester}`}>
-                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`}></input></td>
+                                        <tr
+                                            key={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                            id={`${course.department}${course.courseCode}${course.section}${course.semester}`}
+                                            className="pointer"
+                                            onClick={(e) => {
+                                                if (!e.target.classList.contains('check')) {
+                                                    const checkbox = e.currentTarget.querySelector(`#${course.department}${course.courseCode}${course.section}${course.semester}`);
+                                                    checkbox.click();
+                                                }
+                                                toggleRowHighlight();
+                                            }}
+                                        >
+                                            <td><input type="checkbox" className='check' id={`${course.department}${course.courseCode}${course.section}${course.semester}`} onClick={ toggleRowHighlight }></input></td>
                                             <td>{course.department}{course.courseCode}</td>
                                             <td>{course.name}</td>
                                             <td>{course.section}</td>
@@ -78,17 +112,10 @@ const ViewCourses = () => {
                                             <td>{course.semester}</td>
                                         </tr>
                                     ))}
-                                    {timeBlocks.map((timeBlock, index) => (
-                                        <tr key={`timeBlock${index}`}>
-                                            <td></td>
-                                            <td colSpan="2">{timeBlock.name}</td>
-                                            <td colSpan="2">{timeBlock.startTime} - {timeBlock.endTime}</td>
-                                        </tr>
-                                    ))}
                                 </tbody>
                             </table>
-            <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton">Remove Selected Courses</Button>
-            <Link to="/addCourses" className="viewCourseButton linkButton">Go to Add Courses</Link>
+            <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton button">Remove Selected Courses</Button>
+            <Link to="/addCourses" className="viewCourseButton linkButton button">Go to Add Courses</Link>
         </div>
     )
 }

@@ -1,3 +1,4 @@
+// handles the settings page, which for now handles setting a list of majors.
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies';
@@ -73,7 +74,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Add Program</button>
+                <button type="submit" className="button">Add Program</button>
             </form>
             <p>REMOVE A PROGRAM:</p>
             <form id="settingsForm" onSubmit={removeProgram}>
@@ -85,7 +86,7 @@ const SettingsPage = () => {
                       </option>
                     ))}
                 </select>
-                <button type="submit">Remove Program</button>
+                <button type="submit" className="button">Remove Program</button>
             </form>
         </div>
     )
@@ -119,7 +120,7 @@ function getAllPrograms() {
             { name: "Chemistry Secondary Education", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/Chemistry_SecEduc_2028.pdf"},
             { name: "Biochemistry with Health concentration", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/Biochemistry_Health_2028.pdf"},
             { name: "Communication Arts", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/CommunicationArts_2028.pdf"},
-            { name: "Design &amp; Innovation", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DesignandInnovation_2028.pdf"},
+            { name: "Design & Innovation", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DesignandInnovation_2028.pdf"},
             { name: "Computer Science (B.S.)", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/ComputerScience_BS_%202028.pdf"},
             { name: "Computer Programming", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/ComputerProgramming_2028.pdf"},
             { name: "Data Science", href: "https://my.gcc.edu/docs/registrar/programguides/statussheets/2024/DataScience_2028.pdf"},

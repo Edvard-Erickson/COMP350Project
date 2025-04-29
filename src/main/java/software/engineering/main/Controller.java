@@ -1,7 +1,16 @@
 package software.engineering.main;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,20 +31,84 @@ public class Controller {
         this.s = new Search(courseList);
     }
 
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<ByteArrayResource> download(@PathVariable String fileName, @RequestParam List<String> courses) {
+        ArrayList<Section> timeblocks = toCourseObjects(courses);
+        if (timeblocks.isEmpty()) {
+            System.out.println("No valid courses found for the given input.");
+            ResponseEntity.badRequest().build();
+        }
+        Schedule schedule = new Schedule();
+        for (Section s : timeblocks) {
+            schedule.addSection(s);
+        }
+
+        File file = schedule.saveToSchedule(fileName);
+
+        try {
+            byte[] contentBytes = Files.readAllBytes(file.toPath());
+            ByteArrayResource resource = new ByteArrayResource(contentBytes);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + ".json\"")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(contentBytes.length)
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public String upload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return "[]";
+        }
+
+        try {
+            // Save the uploaded file to a temporary location
+            File tempFile = File.createTempFile("uploaded-", ".json");
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(file.getBytes());
+            }
+
+            // Load the schedule from the saved file
+            Schedule schedule = Schedule.loadSchedule(tempFile.getAbsolutePath());
+
+            // Process the schedule as needed
+            // For example, print the schedule
+            schedule.printSchedule();
+
+            return new Gson().toJson(schedule.getSchedule());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "[]";
+        }
+    }
+
     @GetMapping("/search/{query}")
     public String getSearchResults(@PathVariable String query, @RequestParam Map<String, String> filters) {
         s.clearFilters();
+        String[] days = {"M", "T", "W", "R", "F"};
         for (Map.Entry<String, String> filter : filters.entrySet()) {
             if (!filter.getValue().isEmpty()) {
                 switch (filter.getKey()) {
                     case "department" -> s.addFilter(new DepartmentFilter(filter.getValue()));
                     case "professor" -> s.addFilter(new ProfessorFilter(filter.getValue()));
+                    case "days" -> {
+                        System.out.println(filter.getValue());
+                        if (filter.getValue().isEmpty()) {
+                            break;
+                        }
+                        days = filter.getValue().split(",");
+                    }
                     case "times" -> {
                         System.out.println(filter.getValue());
                         String[] times = filter.getValue().split(",");
                         HashMap<String, String[]> timeMap = new HashMap<>();
                         for (String time : times) {
-                            for (String key : new String[]{"M", "T", "W", "R", "F"}) {
+                            for (String key : days) {
                                 String[] timeRange = time.split("-");
                                 timeMap.put(key, timeRange);
                             }
@@ -46,12 +119,14 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
-        System.out.println(new Gson().toJson(filteredSearch.courseSearch(query)));
+
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch(query).size());
         return new Gson().toJson(filteredSearch.courseSearch(query));
     }
 
     @GetMapping("/search")
     public String getEmptySearch(@RequestParam Map<String, String> filters) {
+        String[] days = {"M", "T", "W", "R", "F"};
         System.out.println("EMPTY SEARCH");
         s.clearFilters();
         for (Map.Entry<String, String> filter : filters.entrySet()) {
@@ -59,12 +134,19 @@ public class Controller {
                 switch (filter.getKey()) {
                     case "department" -> s.addFilter(new DepartmentFilter(filter.getValue()));
                     case "professor" -> s.addFilter(new ProfessorFilter(filter.getValue()));
+                    case "days" -> {
+                        System.out.println(filter.getValue());
+                        if (filter.getValue().isEmpty()) {
+                            break;
+                        }
+                        days = filter.getValue().split(",");
+                    }
                     case "times" -> {
                         System.out.println(filter.getValue());
                         String[] times = filter.getValue().split(",");
                         HashMap<String, String[]> timeMap = new HashMap<>();
                         for (String time : times) {
-                            for (String key : new String[]{"M", "T", "W", "R", "F"}) {
+                            for (String key : days) {
                                 String[] timeRange = time.split("-");
                                 timeMap.put(key, timeRange);
                             }
@@ -75,6 +157,7 @@ public class Controller {
             }
         }
         Search filteredSearch = new Search(s.applyFilters());
+        System.out.println("NUM OF SEARCH RESULTS: " + filteredSearch.courseSearch("").size());
         return new Gson().toJson(filteredSearch.courseSearch(""));
     }
 
