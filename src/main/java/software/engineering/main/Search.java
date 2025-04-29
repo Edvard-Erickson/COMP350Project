@@ -107,7 +107,7 @@ public class Search {
         for (int i = searchArguments.size() - 1; i >= 0; i--) {
             if (searchArguments.get(i).equals("AND")) {
                 searchArguments.remove(i);
-            } else if (!searchArguments.get(i).contains("\"")) { // TODO
+            } else if (!searchArguments.get(i).contains("\"") && !searchArguments.get(i).contains("NOT") && !searchArguments.get(i).contains("OR")) { // TODO
                 //System.out.println("searchArguments[" + i + "] = " + searchArguments.get(i));
                 if (!dictionary.contains(searchArguments.get(i).toLowerCase())) {
                     String closestMatch = closestMatch(searchArguments.get(i).toLowerCase());

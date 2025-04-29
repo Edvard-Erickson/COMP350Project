@@ -85,7 +85,8 @@ export const AddCourses = () => {
         } else {
             setCheckmarkedData([]);
         }
-        if (cookies.load('selectedCourses').length > 0) {
+        const selectedCourses = cookies.load('selectedCourses') || [];
+        if (selectedCourses.length > 0) {
             fetch(`http://localhost:8080/api/coursesInfo?courses=${cookies.load('selectedCourses').join(',')}`)
                 .then(response => response.json())
                 .then(data => {
