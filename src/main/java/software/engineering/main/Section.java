@@ -20,16 +20,20 @@ public class Section extends Timeblock{
     }
 
     public boolean containsText(String text) {
-        if (text.length() > 1) {
+        if (text.length() >= 1) {
             if (text.charAt(0) == '\"') {
-                text = text.substring(1, text.length() - 1);
+                if (text.length() >= 2) {
+                    text = text.substring(1, text.length() - 1);
 
-                if (getCourseName().contains(text) ||
-                        professor.contains(text) ||
-                        department.contains(text) ||
-                        (text.contains(Integer.toString(courseCode)) && text.contains(department))
-                ) {
-                    return true;
+                    if (getCourseName().contains(text) ||
+                            professor.contains(text) ||
+                            department.contains(text) ||
+                            (text.contains(Integer.toString(courseCode)) && text.contains(department))
+                    ) {
+                        return true;
+                    }
+                } else {
+                    return false;
                 }
             } else {
                 if (getCourseName().toLowerCase().contains(text) ||
