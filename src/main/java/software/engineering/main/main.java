@@ -39,13 +39,13 @@ public class main {
         ctimes.put("T", new String[]{"9:30:00", "10:20:00"});
         ctimes.put("W", new String[]{"11:00:00", "11:50:00"});
         ctimes.put("F", new String[]{"11:00:00", "11:50:00"});
-        Section c = new Section("MATH", 102, 'A', "Calculus 2", "Alex", "",ctimes);
+        Section c = new Section("MATH", 102, 'A', "Calculus 2", "Alex Lastname", "",ctimes);
 
         HashMap<String, String[]> dtimes = new HashMap<>();
         dtimes.put("M", new String[]{"1:00:00", "1:50:00"});
         dtimes.put("W", new String[]{"1:00:00", "1:50:00"});
         dtimes.put("F", new String[]{"1:00:00", "1:50:00"});
-        Section d = new Section("MATH", 238, 'A', "Differential Equations", "Alex", "", dtimes);
+        Section d = new Section("MATH", 238, 'A', "Differential Equations", "Alex Lastname", "", dtimes);
 
         ArrayList<Section> courseList = new ArrayList<>();
         courseList.add(a);
@@ -123,5 +123,20 @@ public class main {
         System.out.println(s.courseSearch("\"\"\""));
         System.out.println(s.courseSearch(""));
         System.out.println(s.courseSearch("calculus OR \"aSD aSd"));
+        System.out.println(s.courseSearch("Alex"));
+        System.out.println(s.courseSearch("Alqx"));
+
+        System.out.println();
+        System.out.println(s.levenshteinDistance("hello", "helloo"));
+        System.out.println(s.levenshteinDistance("a", "b"));
+        System.out.println(s.levenshteinDistance("close", "coclose"));
+        System.out.println(s.levenshteinDistance("close", "xxclose"));
+        System.out.println(s.levenshteinDistance("close", "close"));
+        System.out.println(s.levenshteinDistance("close", "not"));
+        System.out.println(s.levenshteinDistance("close", "lose"));
+        System.out.println(s.levenshteinDistance("close", "loses"));
+        System.out.println(s.levenshteinDistance("asdasd", "asdhighasd"));
+        System.out.println(s.levenshteinDistance("close", "losers"));
+        System.out.println(s.levenshteinDistance("whendowecrashthisprogram", "idontknowifthismightcrash"));
     }
 }
