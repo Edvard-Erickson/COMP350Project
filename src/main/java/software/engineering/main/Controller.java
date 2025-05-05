@@ -180,7 +180,7 @@ public class Controller {
             sg.addToPossibleCourseList(s);
         }
         sg.generatePossibleSchedules();
-        ArrayList<Schedule> possible = sg.getSchedulePossibilities();
+        ArrayList<Schedule> possible = sg.getTopTenSchedules();
 
         if (possible.isEmpty()) {
             System.out.println("No possible schedules generated.");
