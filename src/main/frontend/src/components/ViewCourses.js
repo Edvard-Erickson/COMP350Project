@@ -72,7 +72,10 @@ const ViewCourses = () => {
 
     return (
         <div>
-            <h2>Current Courses</h2>
+            <div id="headingView">
+                <h2>Current Courses</h2>
+                <Link to="/addCourses" className="viewCourseButton linkButton button">Go to Add Courses</Link>
+            </div>
             <table className="fullWidthTable">
                                 <thead>
                                     <tr>
@@ -115,7 +118,6 @@ const ViewCourses = () => {
                                 </tbody>
                             </table>
             <Button as={Link} onClick={removeCourses} className="viewCourseButton buttonButton button">Remove Selected Courses</Button>
-            <Link to="/addCourses" className="viewCourseButton linkButton button">Go to Add Courses</Link>
         </div>
     )
 }

@@ -106,7 +106,7 @@ export default function App() {
 
             <div id="chatbox" className={collapse ? "collapsed" : ""}>
               <div id="chatbox-expand" onClick={() => setCollapse(!collapse)}>
-                <h2>▴ AI Assistant - Powered by OpenAI</h2>
+                <h2>▴ AIden - Powered by OpenAI</h2>
               </div>
               <div id="chatbox-content">
                 <div id="chatbox-messages">
